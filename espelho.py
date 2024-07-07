@@ -113,7 +113,7 @@ def visualizar() -> None:
         plt.figure(figsize=(16, 4))
         plt.style.use("ggplot")
 
-        ax: plt.Axes = sns.barplot(data=df_anual.loc[[year], "jan":"dez"])
+        ax: plt.Axes = sns.barplot(data=df_anual.loc[[year], df_anual.columns[:-2]])
         ax.set_title(f"Espelho {year}", loc="center", fontweight="bold", fontsize=12)
         ax.set(xlabel="", ylabel="", yticks=[])
 
