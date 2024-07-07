@@ -78,27 +78,24 @@ def add(tabela: str, listas: list[dict]) -> None:
 
 
 def view(stmt: str) -> None:
-    print(pd.read_sql(sql=stmt, con=engine))
+    print(pd.read_sql(sql=sa.text(stmt), con=engine))
 
 
 def visualizar() -> None:
     year: int = int(input("Em que ano quer visualizar o gráfico (a partir de 2005)? "))
     if 2005 <= year <= datetime.now().year:
-        with engine.connect() as conn:
-            stmt: str = f"""
-                SELECT
-                    SUBSTR(período, 1, 4) AS ano,
-                    CONCAT('mês ', SUBSTR(período, 5)) AS mes,
-                    SUM(valor) AS valor
-                FROM
-                    espelho
-                GROUP BY
-                    ano,
-                    mes
-            """
-            result: sa.Sequence = conn.execute(sa.text(stmt)).fetchall()
-
-        df_anual: pd.DataFrame = pd.DataFrame(result)
+        stmt: str = f"""
+            SELECT
+                SUBSTR(período, 1, 4) AS ano,
+                CONCAT('mês ', SUBSTR(período, 5)) AS mes,
+                SUM(valor) AS valor
+            FROM
+                espelho
+            GROUP BY
+                ano,
+                mes
+        """
+        df_anual: pd.DataFrame = pd.read_sql(sql=sa.text(stmt), con=engine)
         df_anual = df_anual.pivot(columns=["mes"], index=["ano"], values=["valor"])
         df_anual.columns = df_anual.columns.droplevel(level=0)
         df_anual.reset_index(inplace=True)
@@ -148,27 +145,16 @@ if __name__ == '__main__':
         option: str = input("Escolha a opção acima (ou tecla ENTER para sair) → ")
 
         match option:
-            case "1":
-                create(stmt=sqls[0])
-            case "2":
-                create(stmt=sqls[1])
-            case "3":
-                add(tabela="lançamento", listas=releases)
-            case "4":
-                add(tabela="espelho", listas=mirrors)
-            case "5":
-                view(stmt=sqls[2])
-            case "6":
-                view(stmt=sqls[3])
-            case "7":
-                view(stmt=sqls[4])
-            case "8":
-                view(stmt=sqls[5])
-            case "9":
-                view(stmt=sqls[6])
-            case "v":
-                visualizar()
-            case _:
-                break
+            case "1": create(stmt=sqls[0])
+            case "2": create(stmt=sqls[1])
+            case "3": add(tabela="lançamento", listas=releases)
+            case "4": add(tabela="espelho", listas=mirrors)
+            case "5": view(stmt=sqls[2])
+            case "6": view(stmt=sqls[3])
+            case "7": view(stmt=sqls[4])
+            case "8": view(stmt=sqls[5])
+            case "9": view(stmt=sqls[6])
+            case "v": visualizar()
+            case _: break
 
         time.sleep(2.5)

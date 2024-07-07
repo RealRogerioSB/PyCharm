@@ -57,7 +57,7 @@ def add():
 
 
 def view():
-    df = pd.read_sql(sql="SELECT * FROM megasena", con=engine)
+    df = pd.read_sql(sql=sa.text("SELECT * FROM megasena"), con=engine)
     df["concurso"] = df["concurso"].astype(str).str.zfill(4)
     df["data"] = pd.to_datetime(df["data"]).dt.strftime("%x (%a)")
     for x in ["bola1", "bola2", "bola3", "bola4", "bola5", "bola6"]:

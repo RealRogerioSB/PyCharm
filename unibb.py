@@ -32,8 +32,8 @@ def add():
 
 
 def view():
-    print(pd.read_sql(sql="SELECT id_curso AS Código, nm_curso AS Curso, hr_curso AS Hora FROM unibb ORDER BY id_curso",
-                      con=engine))
+    stmt = "SELECT id_curso AS Código, nm_curso AS Curso, hr_curso AS Horas FROM unibb ORDER BY id_curso"
+    print(pd.read_sql(sql=sa.text(stmt), con=engine))
 
 
 if __name__ == "__main__":
