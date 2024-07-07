@@ -1,0 +1,126 @@
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <s:Body>
+    <RecepcionarLoteRpsSincronoResponse xmlns="http://nfse.abrasf.org.br">
+      <EnviarLoteRpsSincronoResposta xmlns="http://www.abrasf.org.br/nfse.xsd">
+        <NumeroLote>841653000</NumeroLote>
+        <DataRecebimento>2023-10-03T23:30:20</DataRecebimento>
+        <Protocolo>0B9ED81D-8DC0-44FC-A75A-E6E95866BD6F</Protocolo>
+        <ListaNfse>
+          <CompNfse>
+            <Nfse versao="2.04">
+              <InfNfse>
+                <Numero>41059</Numero>
+                <CodigoVerificacao>4B5251A8F</CodigoVerificacao>
+                <DataEmissao>2023-10-03T23:30:20</DataEmissao>
+                <ValoresNfse>
+                  <BaseCalculo>129.90</BaseCalculo>
+                  <Aliquota>2</Aliquota>
+                  <ValorIss>2.60</ValorIss>
+                  <ValorLiquidoNfse>129.90</ValorLiquidoNfse>
+                </ValoresNfse>
+                <DescricaoCodigoTributacaoMunicípio>6.04 - Ginástica, dança, esportes, natação, artes marciais e demais atividades físicas</DescricaoCodigoTributacaoMunicípio>
+                <ValorCredito>0</ValorCredito>
+                <PrestadorServico>
+                  <RazaoSocial>ADV ESPORTE E SAÚDE LTDA</RazaoSocial>
+                  <NomeFantasia>SMART FIT</NomeFantasia>
+                  <Endereco>
+                    <Endereco>Cln 305 BL A Brasilia</Endereco>
+                    <Complemento />
+                    <Bairro>Asa Norte</Bairro>
+                    <CodigoMunicipio>5300108</CodigoMunicipio>
+                    <Uf>DF</Uf>
+                    <Cep>70737510</Cep>
+                  </Endereco>
+                  <Contato>
+                    <Telefone />
+                  </Contato>
+                </PrestadorServico>
+                <OrgaoGerador>
+                  <CodigoMunicipio>5300108</CodigoMunicipio>
+                  <Uf>DF</Uf>
+                </OrgaoGerador>
+                <DeclaracaoPrestacaoServico>
+                  <InfDeclaracaoPrestacaoServico Id="41462">
+                    <Rps>
+                      <IdentificacaoRps>
+                        <Numero>41462</Numero>
+                        <Serie>3</Serie>
+                        <Tipo>1</Tipo>
+                      </IdentificacaoRps>
+                      <DataEmissao>2023-10-03</DataEmissao>
+                      <Status>1</Status>
+                    </Rps>
+                    <Competencia>2023-10-03</Competencia>
+                    <Servico>
+                      <Valores>
+                        <ValorServicos>129.9</ValorServicos>
+                        <ValorDeducoes>0</ValorDeducoes>
+                        <ValorPis>0</ValorPis>
+                        <ValorCofins>0</ValorCofins>
+                      </Valores>
+                      <IssRetido>2</IssRetido>
+                      <ItemListaServico>06.04</ItemListaServico>
+                      <CodigoCnae>9313100</CodigoCnae>
+                      <CodigoTributacaoMunicipio>604</CodigoTributacaoMunicipio>
+                      <Discriminacao>Ginastica, danca, esportes, natacao, artes marciais e demais atividades fisicas.. VALOR APROXIMADO DOS TRIBUTOS: R$14.61 (CONFORME LEI FED. 12741/2012) -PROCON DF SCS Ed. Venancio 2000 B1. B-60 Sala 240 Fone: 151</Discriminacao>
+                      <CodigoMunicipio>5300108</CodigoMunicipio>
+                      <ExigibilidadeISS>1</ExigibilidadeISS>
+                      <MunicipioIncidencia>5300108</MunicipioIncidencia>
+                    </Servico>
+                    <Prestador>
+                      <CpfCnpj>
+                        <Cnpj>08644821002035</Cnpj>
+                      </CpfCnpj>
+                      <InscricaoMunicipal>0751808802274</InscricaoMunicipal>
+                    </Prestador>
+                    <TomadorServico>
+                      <IdentificacaoTomador>
+                        <CpfCnpj>
+                          <Cpf>64100308515</Cpf>
+                        </CpfCnpj>
+                      </IdentificacaoTomador>
+                      <RazaoSocial>ROGERIO BALLOUSSIER</RazaoSocial>
+                      <Endereco>
+                        <Endereco>Alameda dos Jardins</Endereco>
+                        <Numero>808</Numero>
+                        <Bairro>Horto Bela Vista</Bairro>
+                        <CodigoMunicipio>2927408</CodigoMunicipio>
+                        <Uf>BA</Uf>
+                        <Cep>41098040</Cep>
+                      </Endereco>
+                      <Contato>
+                        <Email>rogerioballoussier@icloud.com</Email>
+                      </Contato>
+                    </TomadorServico>
+                    <OptanteSimplesNacional>2</OptanteSimplesNacional>
+                    <IncentivoFiscal>2</IncentivoFiscal>
+                  </InfDeclaracaoPrestacaoServico>
+                  <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+                    <SignedInfo>
+                      <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+                      <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />
+                      <Reference URI="#41462">
+                        <Transforms>
+                          <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+                          <Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+                        </Transforms>
+                        <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+                        <DigestValue>l36kUB+LIiqxe0mnizdyTea/0Zg=</DigestValue>
+                      </Reference>
+                    </SignedInfo>
+                    <SignatureValue>lioj9WsMJX7PZyNqx19qn5C0NLJYCxQ2vZTNkWy1Fc580lYbejgNt1QcW+QZ1qJtxVcIVrcezJM3jLmUvIfX4OyzFnOBLky1lOhUW00MXitFkvQCnWVBrUbWBTL8Nm9bPI1JMNraRmPFhBCiyVPs9l2zNI46FYcEfqIOF2EaXNSCbsdLGb4PwuE5muzbxsaHtChrZ5TJKV4tRo69Aos+zypTc1tvc3A5vzt3fVsTMGwwMwiC0JfCooGhshW/0brZFIn1uOxX2QNvy0+R+tSp5GITtdjkTt3TYJkELtOqglG8o67KPehYjsoZY3nrwBfutTJKCU17p3U2T0EqdsAyZg==</SignatureValue>
+                    <KeyInfo>
+                      <X509Data>
+                        <X509Certificate>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</X509Certificate>
+                      </X509Data>
+                    </KeyInfo>
+                  </Signature>
+                </DeclaracaoPrestacaoServico>
+              </InfNfse>
+            </Nfse>
+          </CompNfse>
+        </ListaNfse>
+      </EnviarLoteRpsSincronoResposta>
+    </RecepcionarLoteRpsSincronoResponse>
+  </s:Body>
+</s:Envelope>

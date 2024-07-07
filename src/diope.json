@@ -1,0 +1,298 @@
+{
+  "digivox": {
+    "dialect": "mysql+pymysql",
+    "user": "atacado",
+    "password": "474564p45swrd",
+    "host": "172.16.12.90",
+    "port": 3306,
+    "dbname": "uor474564"
+  },
+  "serv_90": {
+    "dialect": "mysql+pymysql",
+    "user": "conex_sas",
+    "password": "lbvNtjDniV",
+    "host": "172.16.12.90",
+    "port": 3306,
+    "dbname": "ctr_cenop_valores"
+  },
+  "atacado": {
+    "dialect": "mysql+pymysql",
+    "user": "atacado",
+    "password": "474564p45swrd",
+    "host": "172.16.12.91",
+    "port": 3306,
+    "dbname": "uor474564"
+  },
+  "serv_91": {
+    "dialect": "mysql+pymysql",
+    "user": "rootdinfo",
+    "password": "4sxrqa",
+    "host": "172.16.12.91",
+    "port": 3306,
+    "dbname": ""
+  },
+  "serv_103": {
+    "dialect": "mysql+pymysql",
+    "user": "UOP",
+    "password": "f3600239",
+    "host": "172.16.12.103",
+    "port": 3306,
+    "dbname": "app_falecom"
+  },
+  "serv_168": {
+    "dialect": "mysql+pymysql",
+    "user": "uopDival",
+    "password": "lpwsADaP9oFmDoLr",
+    "host": "172.16.12.168",
+    "port": 3306,
+    "dbname": "fluxoAux"
+  },
+  "inducao-prod": {
+    "dialect": "mysql+pymysql",
+    "user": "portaldiope",
+    "password": "7eHAS8Qi",
+    "host": "172.16.12.210",
+    "port": 3306,
+    "dbname": "inducao"
+  },
+  "inducao": {
+    "dialect": "mysql+pymysql",
+    "user": "rootdinfo",
+    "password": "49t676",
+    "host": "172.16.12.220",
+    "port": 3306,
+    "dbname": "pesquisa"
+  },
+  "serv_6": {
+    "dialect": "mysql+pymysql",
+    "user": "usrRA",
+    "password": "ra9600",
+    "host": "172.16.13.6",
+    "port": 3306,
+    "dbname": ""
+  },
+  "serv_7": {
+    "dialect": "mysql+pymysql",
+    "user": "conex_sas",
+    "password": "xIEwokMndw",
+    "host": "172.16.13.7",
+    "port": 3306,
+    "dbname": ""
+  },
+  "inducao-desenv": {
+    "dialect": "mysql+pymysql",
+    "user": "portaldiope",
+    "password": "portal40112021",
+    "host": "172.16.13.19",
+    "port": 3306,
+    "dbname": "portal"
+  },
+  "serv_99": {
+    "dialect": "mysql+pymysql",
+    "user": "geinf",
+    "password": "conexao2022",
+    "host": "172.16.13.99",
+    "port": 3306,
+    "dbname": ""
+  },
+  "siga": {
+    "dialect": "mysql+pymysql",
+    "user": "guest_diope",
+    "password": "CP_diope0822",
+    "host": "172.16.15.228",
+    "port": 3306,
+    "dbname": "siga"
+  },
+  "uop_conexao": {
+    "dialect": "mysql+pymysql",
+    "user": "user_uop_conexao",
+    "password": "Us3r_c0nex40_Uop_pass",
+    "host": "172.17.61.94",
+    "port": 3306,
+    "dbname": ""
+  },
+  "serv_75": {
+    "dialect": "mysql+pymysql",
+    "user": "dinopsp",
+    "password": "dinop#sp",
+    "host": "172.17.71.75",
+    "port": 3306,
+    "dbname": ""
+  },
+  "serv_244": {
+    "dialect": "mysql+pymysql",
+    "user": "usrConexao",
+    "password": "eficienciaOpr",
+    "host": "172.17.71.244",
+    "port": 3306,
+    "dbname": "eficienciaoperacional"
+  },
+  "serv_21": {
+    "dialect": "mysql+pymysql",
+    "user": "user_uop_conexao",
+    "password": "Us3r_c0nex40_Uop_pass_devuloso",
+    "host": "172.17.87.21",
+    "port": 3306,
+    "dbname": ""
+  },
+  "gat": {
+    "dialect": "mysql+pymysql",
+    "user": "rootdinfo",
+    "password": "jv7cu6",
+    "host": "172.20.0.224",
+    "port": 3306,
+    "dbname": "gat"
+  },
+  "silo": {
+    "dialect": "mysql+pymysql",
+    "user": "user_gsv",
+    "password": "bmuq8674",
+    "host": "172.20.109.134",
+    "port": 3306,
+    "dbname": "uso_dados"
+  },
+  "serv_186": {
+    "dialect": "mysql+pymysql",
+    "user": "user_apr_inducao",
+    "password": "MHyuukCi#1",
+    "host": "172.20.109.186",
+    "port": 3306,
+    "dbname": "diope_dados_inducao"
+  },
+  "serv_115": {
+    "dialect": "mysql+pymysql",
+    "user": "user_dw_pso",
+    "password": "IbdLxCkd",
+    "host": "172.20.125.115",
+    "port": 3306,
+    "dbname": "dw_pso"
+  },
+  "serv_58": {
+    "dialect": "mysql+pymysql",
+    "user": "usrSAS",
+    "password": "usrSAS9600",
+    "host": "172.29.14.58",
+    "port": 3306,
+    "dbname": ""
+  },
+  "serv102": {
+    "dialect": "mysql+pymysql",
+    "user": "conex_sas",
+    "password": "wHZuAC4gLH",
+    "host": "172.29.14.102",
+    "port": 3306,
+    "dbname": ""
+  },
+  "serv_105": {
+    "dialect": "mysql+pymysql",
+    "user": "rootdinfo",
+    "password": "b4q8ff",
+    "host": "172.29.14.105",
+    "port": 3306,
+    "dbname": "sinergianovo"
+  },
+  "sas": {
+    "dialect": "mysql+pymysql",
+    "user": "diopeGeinf",
+    "password": "diope9600",
+    "host": "172.29.14.114",
+    "port": 3306,
+    "dbname": "sas"
+  },
+  "banco": {
+    "dialect": "mysql+pymysql",
+    "user": "banco",
+    "password": "banco1234",
+    "host": "172.29.15.4",
+    "port": 3306,
+    "dbname": "embaixadores"
+  },
+  "gimob": {
+    "dialect": "mysql+pymysql",
+    "user": "uop_eq_gestor",
+    "password": "uopGestor0810",
+    "host": "172.29.15.36",
+    "port": 3306,
+    "dbname": "gimob"
+  },
+  "spotfire": {
+    "dialect": "mysql+pymysql",
+    "user": "diope",
+    "password": "diope9600",
+    "host": "172.29.15.109",
+    "port": 3306,
+    "dbname": "spotfire"
+  },
+  "portal_orpag": {
+    "dialect": "mysql+pymysql",
+    "user": "DIOPE",
+    "password": "Diope9600",
+    "host": "172.29.15.160",
+    "port": 3306,
+    "dbname": "dicor"
+  },
+  "fluxoAux": {
+    "dialect": "mysql+pymysql",
+    "user": "diopePlanejamento",
+    "password": "4JOthiWENP",
+    "host": "172.29.15.220",
+    "port": 3306,
+    "dbname": "fluxoAux"
+  },
+  "gsv_web": {
+    "dialect": "mysql+pymysql",
+    "user": "uor474564",
+    "password": "kCbjervXAauw",
+    "host": "172.30.98.215",
+    "port": 3306,
+    "dbname": "uso_dados"
+  },
+  "master_uso": {
+    "dialect": "mysql+pymysql",
+    "user": "sinergia",
+    "password": "e49ZTG2m",
+    "host": "172.30.98.215",
+    "port": 3306,
+    "dbname": "uso_dados"
+  },
+  "db2": {
+    "dialect": "db2+ibm_db",
+    "user": "DB2I1DDB",
+    "password": "32714689",
+    "host": "gwdb2.bb.com.br",
+    "port": 50100,
+    "dbname": "BDB2P04"
+  },
+  "db2_4011": {
+    "dialect": "db2+ibm_db",
+    "user": "DB2I22DD",
+    "password": "01020399",
+    "host": "gwdb2.bb.com.br",
+    "port": 50100,
+    "dbname": "BDB2P04"
+  },
+  "dicoi": {
+    "dialect": "postgresql",
+    "user": "user_dicoi_diope",
+    "password": "JXbrGkCYH3",
+    "host": "silo12-slave.postgresql.bdh.servicos.bb.com.br",
+    "port": 5432,
+    "dbname": "dicoi"
+  },
+  "phpMyAdmin": {
+    "dialect": "mysql+pymysql",
+    "user": "sql10682207",
+    "password": "bsPUHPndiP",
+    "host": "sql10.freemysqlhosting.net",
+    "port": 3306,
+    "dbname": "sql10682207"
+  },
+  "team_pass": {
+    "dialect": "",
+    "user": "",
+    "password": "6MW>bAv}",
+    "host": "172.16.15.137",
+    "port": 0,
+    "dbname": ""
+  }
+}
