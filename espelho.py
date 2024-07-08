@@ -16,17 +16,17 @@ pd.set_option("display.float_format", lambda x: locale.currency(x, symbol=False,
 
 load_dotenv()
 
-engine = sa.create_engine(os.getenv("URL_MYSQL"))
+engine: sa.Engine = sa.create_engine(os.getenv("URL_MYSQL"))
 
-releases = [
+releases: list[dict] = [
     {"lançamento": "lançamento 1"},
 ]
 
-mirrors = [
+mirrors: list[dict] = [
     {"id_lançamento": 59, "período": 201903, "acerto": False, "valor": 1.9},
 ]
 
-sqls = [
+sqls: list[str] = [
     """
         CREATE TABLE IF NOT EXISTS lançamento (
             id_lançamento SMALLINT PRIMARY KEY,
@@ -71,8 +71,8 @@ def create(stmt: str) -> None:
     print("Tabela criada com sucesso!")
 
 
-def add(tabela: str, listas: list[dict]) -> None:
-    df_add: pd.DataFrame = pd.DataFrame(listas)
+def add(tabela: str, lista: list[dict]) -> None:
+    df_add: pd.DataFrame = pd.DataFrame(lista)
     rows_inserted: int = df_add.to_sql(name=tabela, con=engine, if_exists="append", index=False)
     print(f"Foi(ram) {rows_inserted} lançamento(s) inserido(s) com sucesso.")
 
@@ -147,8 +147,8 @@ if __name__ == '__main__':
         match option:
             case "1": create(stmt=sqls[0])
             case "2": create(stmt=sqls[1])
-            case "3": add(tabela="lançamento", listas=releases)
-            case "4": add(tabela="espelho", listas=mirrors)
+            case "3": add(tabela="lançamento", lista=releases)
+            case "4": add(tabela="espelho", lista=mirrors)
             case "5": view(stmt=sqls[2])
             case "6": view(stmt=sqls[3])
             case "7": view(stmt=sqls[4])

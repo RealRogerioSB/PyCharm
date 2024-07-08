@@ -6,11 +6,11 @@ import time
 
 load_dotenv()
 
-engine = sa.engine.create_engine(os.getenv("URL_MYSQL"))
+engine: sa.Engine = sa.engine.create_engine(os.getenv("URL_MYSQL"))
 
 
-def create():
-    stmt = """
+def create() -> None:
+    stmt: str = """
         CREATE TABLE IF NOT EXISTS unibb (
             id_curso MEDIUMINT PRIMARY KEY,
             nm_curso VARCHAR(100) NOT NULL,
@@ -22,29 +22,32 @@ def create():
     print("Tabela criada com sucesso.")
 
 
-def add():
-    cursos = [
+def add() -> None:
+    cursos: list[dict] = [
         {"id_curso": 0, "nm_curso": "", "hr_curso": 0},
     ]
-    df_new = pd.DataFrame(cursos)
-    rows_inserted = df_new.to_sql(name="unibb", con=engine, if_exists="append", index=False)
+    df_new: pd.DataFrame = pd.DataFrame(cursos)
+    rows_inserted: int = df_new.to_sql(name="unibb", con=engine, if_exists="append", index=False)
     print(f"Foram {rows_inserted} cursos inseridos com sucesso.")
 
 
-def view():
-    stmt = "SELECT id_curso AS Código, nm_curso AS Curso, hr_curso AS Horas FROM unibb ORDER BY id_curso"
+def view() -> None:
+    stmt: str = "SELECT id_curso AS Código, nm_curso AS Curso, hr_curso AS Horas FROM unibb ORDER BY id_curso"
     print(pd.read_sql(sql=sa.text(stmt), con=engine))
 
 
 if __name__ == "__main__":
     while True:
         os.system("cls" if os.name == "nt" else "clear")
+
         print("-" * 50)
         print(" 1 - Criar Nova Tabela...")
         print(" 2 - Adicionar Novos Registros...")
         print(" 3 - Visualizar Registros Selecionados...")
         print("-" * 50)
-        option = input("Escolha a opção acima (ou tecla ENTER para sair) → ")
+
+        option: str = input("Escolha a opção acima (ou tecla ENTER para sair) → ")
+
         match option:
             case "1": create()
             case "2": add()

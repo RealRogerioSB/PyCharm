@@ -11,11 +11,11 @@ pd.set_option("display.max_columns", 9)
 
 load_dotenv()
 
-engine = sa.create_engine(os.getenv("URL_MYSQL"))
+engine: sa.Engine = sa.create_engine(os.getenv("URL_MYSQL"))
 
 
-def create():
-    stmt = """
+def create() -> None:
+    stmt: str = """
         CREATE TABLE IF NOT EXISTS megasena (
             concurso MEDIUMINT UNSIGNED NOT NULL,
             data DATE NOT NULL,
@@ -39,8 +39,8 @@ def create():
             print("Tabela criada com sucesso.")
 
 
-def add():
-    new = [
+def add() -> None:
+    new: list[dict] = [
         {"concurso": 2743,
          "data": "2024-06-29",
          "bola1": 13,
@@ -51,13 +51,13 @@ def add():
          "bola6": 53,
          "ganhou": False},
     ]
-    df_new = pd.DataFrame(new)
-    rows_inserted = df_new.to_sql(name="megasena", con=engine, if_exists="append", index=False)
+    df_new: pd.DataFrame = pd.DataFrame(new)
+    rows_inserted: int = df_new.to_sql(name="megasena", con=engine, if_exists="append", index=False)
     print(f"Foram {rows_inserted} jogos inseridos com sucesso.")
 
 
-def view():
-    df = pd.read_sql(sql=sa.text("SELECT * FROM megasena"), con=engine)
+def view() -> None:
+    df: pd.DataFrame = pd.read_sql(sql=sa.text("SELECT * FROM megasena"), con=engine)
     df["concurso"] = df["concurso"].astype(str).str.zfill(4)
     df["data"] = pd.to_datetime(df["data"]).dt.strftime("%x (%a)")
     for x in ["bola1", "bola2", "bola3", "bola4", "bola5", "bola6"]:
@@ -69,6 +69,8 @@ def view():
 
 if __name__ == "__main__":
     while True:
+        os.system("cls" if os.name == "nt" else "clear")
+
         print("-" * 50)
         print(" 1 - Criar Nova Tabela...")
         print(" 2 - Adicionar Novos Registros...")
