@@ -24,7 +24,7 @@ def create() -> None:
 
 def add() -> None:
     cursos: list[dict] = [
-        {"id_curso": 0, "nm_curso": "", "hr_curso": 0},
+        # {"id_curso": 0, "nm_curso": "", "hr_curso": 0},
     ]
     df_new: pd.DataFrame = pd.DataFrame(cursos)
     rows_inserted: int = df_new.to_sql(name="unibb", con=engine, if_exists="append", index=False)
