@@ -21,7 +21,7 @@ def create() -> None:
             concurso MEDIUMINT UNSIGNED NOT NULL,
             data DATE NOT NULL,
             bolas VARCHAR(17) NOT NULL,
-            ganhou TINYINT(1) NOT NULL DEFAULT 0,
+            ganhou BOOLEAN NOT NULL DEFAULT FALSE,
             PRIMARY KEY (concurso, data)
         )
     """
@@ -36,7 +36,9 @@ def create() -> None:
 
 
 def add() -> None:
-    new: list[dict] = [{"concurso": 2743, "data": "2024-06-29", "bolas": "13 25 27 30 37 53", "ganhou": False},]
+    new: list[dict[str: int | str | bool]] = [
+        {"concurso": 2743, "data": "2024-06-29", "bolas": "13 25 27 30 37 53", "ganhou": False},
+    ]
 
     df_new: pd.DataFrame = pd.DataFrame(new)
 
@@ -61,8 +63,8 @@ if __name__ == "__main__":
 
         print("-" * 50)
         print(" 1 - Criar Nova Tabela...")
-        print(" 2 - Adicionar Novas Apostas...")
-        print(" 3 - Visualizar 25 Últimas Apostas...")
+        print(" 2 - Incluir Novos Jogos...")
+        print(" 3 - Exibir 25 Últimos Jogos...")
         print("-" * 50)
 
         option: str = input("Escolha a opção acima (ou tecla ENTER para sair) → ")
