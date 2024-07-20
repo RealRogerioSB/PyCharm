@@ -1,9 +1,9 @@
 from datetime import datetime
+import locale
 import os
 import time
 
 from dotenv import load_dotenv
-import locale
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
@@ -12,33 +12,33 @@ import sqlalchemy as sa
 locale.setlocale(locale.LC_ALL, "pt_BR.UTF-8")
 locale.setlocale(locale.LC_MONETARY, "pt_BR.UTF-8")
 
-pd.set_option("display.float_format", lambda x: locale.currency(x, symbol=False, grouping=True))
+pd.set_option("display.float_format", lambda x: locale.currency(val=x, symbol=False, grouping=True))
 
 load_dotenv()
 
 engine: sa.Engine = sa.create_engine(os.getenv("URL_MYSQL"))
 
-releases: list[dict] = [
-    {"lançamento": "lançamento 1"},
+releases: list[dict[str: str]] = [
+    # {"lançamento": "..."},
 ]
 
-mirrors: list[dict] = [
-    {"id_lançamento": 59, "período": 201903, "acerto": False, "valor": 1.9},
+mirrors: list[dict[str: int | bool | float]] = [
+    # {"id_lançamento": 59, "período": 201903, "acerto": False, "valor": 1.9},
 ]
 
 sqls: list[str] = [
     """
         CREATE TABLE IF NOT EXISTS lançamento (
-            id_lançamento SMALLINT PRIMARY KEY,
+            id_lançamento TINYINT PRIMARY KEY,
             lançamento VARCHAR(60) NOT NULL
         )
     """,
     """
         CREATE TABLE IF NOT EXISTS espelho (
             id INTEGER AUTO_INCREMENT PRIMARY KEY,
-            id_lançamento SMALLINT NOT NULL,
+            id_lançamento TINYINT NOT NULL,
             período MEDIUMINT NOT NULL,
-            acerto TINYINT(1) NOT NULL DEFAULT 0,
+            acerto BOOLEAN NOT NULL DEFAULT FALSE,
             valor DOUBLE NOT NULL
         )
     """,
@@ -51,10 +51,10 @@ sqls: list[str] = [
     """
         SELECT y.lançamento AS Lançamento, x.período AS Período, IF(x.acerto = 1, 'A', 'M') AS Acerto, x.valor AS Valor
         FROM espelho x LEFT JOIN lançamento y ON x.id_lançamento = y.id_lançamento
-        WHERE x.período = 202406
+        WHERE x.período = 202407
     """,
     """
-        SELECT SUM(valor) AS Total FROM espelho WHERE período = 202406
+        SELECT SUM(valor) AS Total FROM espelho WHERE período = 202407
     """,
     """
         SELECT período AS Período, SUM(valor) AS Total
@@ -71,9 +71,8 @@ def create(stmt: str) -> None:
     print("Tabela criada com sucesso!")
 
 
-def add(tabela: str, lista: list[dict]) -> None:
-    df_add: pd.DataFrame = pd.DataFrame(lista)
-    rows_inserted: int = df_add.to_sql(name=tabela, con=engine, if_exists="append", index=False)
+def add(tabela: str, lista: list[dict[str: int | str | bool | float]]) -> None:
+    rows_inserted: int = pd.DataFrame(lista).to_sql(name=tabela, con=engine, if_exists="append", index=False)
     print(f"Foi(ram) {rows_inserted} lançamento(s) inserido(s) com sucesso.")
 
 
@@ -117,7 +116,7 @@ def visualizar() -> None:
         for mes in range(12):
             ax.bar_label(
                 ax.containers[mes],
-                fmt=lambda i: locale.currency(i, symbol=False, grouping=True),
+                fmt=lambda i: locale.currency(val=i, symbol=False, grouping=True),
                 fontsize=10
             )
 

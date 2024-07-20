@@ -1,8 +1,9 @@
-from dotenv import load_dotenv
 import os
+import time
+
+from dotenv import load_dotenv
 import pandas as pd
 import sqlalchemy as sa
-import time
 
 load_dotenv()
 
@@ -12,7 +13,7 @@ engine: sa.Engine = sa.engine.create_engine(os.getenv("URL_MYSQL"))
 def create() -> None:
     stmt: str = """
         CREATE TABLE IF NOT EXISTS unibb (
-            id_curso MEDIUMINT PRIMARY KEY,
+            id_curso MEDIUMINT UNSIGNED PRIMARY KEY,
             nm_curso VARCHAR(100) NOT NULL,
             hr_curso TINYINT UNSIGNED NOT NULL
         )
@@ -23,7 +24,7 @@ def create() -> None:
 
 
 def add() -> None:
-    cursos: list[dict] = [
+    cursos: list[dict[str: int | str]] = [
         # {"id_curso": 0, "nm_curso": "", "hr_curso": 0},
     ]
     df_new: pd.DataFrame = pd.DataFrame(cursos)
@@ -53,4 +54,5 @@ if __name__ == "__main__":
             case "2": add()
             case "3": view()
             case _: break
+
         time.sleep(1.5)
