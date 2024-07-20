@@ -29,7 +29,7 @@ mirrors: list[dict[str: int | bool | float]] = [
 sqls: list[str] = [
     """
         CREATE TABLE IF NOT EXISTS lançamento (
-            id_lançamento TINYINT PRIMARY KEY,
+            id_lançamento TINYINT AUTO_INCREMENT PRIMARY KEY,
             lançamento VARCHAR(60) NOT NULL
         )
     """,
@@ -42,20 +42,16 @@ sqls: list[str] = [
             valor DOUBLE NOT NULL
         )
     """,
-    """
-        SELECT id_lançamento AS Código, lançamento AS Lançamento FROM lançamento ORDER BY id_lançamento
-    """,
+    "SELECT id_lançamento AS Código, lançamento AS Lançamento FROM lançamento ORDER BY id_lançamento",
     """
         SELECT id_lançamento AS Código, período AS Período, acerto AS Acerto, valor AS Valor FROM espelho
     """,
-    """
+    f"""
         SELECT y.lançamento AS Lançamento, x.período AS Período, IF(x.acerto = 1, 'A', 'M') AS Acerto, x.valor AS Valor
         FROM espelho x LEFT JOIN lançamento y ON x.id_lançamento = y.id_lançamento
-        WHERE x.período = 202407
+        WHERE x.período = {datetime.now().year*100 + datetime.now().month}
     """,
-    """
-        SELECT SUM(valor) AS Total FROM espelho WHERE período = 202407
-    """,
+    f"SELECT SUM(valor) AS Total FROM espelho WHERE período = {datetime.now().year*100 + datetime.now().month}",
     """
         SELECT período AS Período, SUM(valor) AS Total
         FROM espelho
@@ -73,7 +69,7 @@ def create(stmt: str) -> None:
 
 def add(tabela: str, lista: list[dict[str: int | str | bool | float]]) -> None:
     rows_inserted: int = pd.DataFrame(lista).to_sql(name=tabela, con=engine, if_exists="append", index=False)
-    print(f"Foi(ram) {rows_inserted} lançamento(s) inserido(s) com sucesso.")
+    print(f"Foi(ram) {rows_inserted} lançamento(s) inserido(s) na tabela {tabela!r} com sucesso.")
 
 
 def view(stmt: str) -> None:

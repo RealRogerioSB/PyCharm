@@ -13,7 +13,8 @@ engine: sa.Engine = sa.engine.create_engine(os.getenv("URL_MYSQL"))
 def create() -> None:
     stmt: str = """
         CREATE TABLE IF NOT EXISTS unibb (
-            id_curso MEDIUMINT UNSIGNED PRIMARY KEY,
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            id_curso INT NOT NULL,
             nm_curso VARCHAR(100) NOT NULL,
             hr_curso TINYINT UNSIGNED NOT NULL
         )
@@ -32,7 +33,12 @@ def add() -> None:
     print(f"Foram {rows_inserted} cursos inseridos com sucesso.")
 
 
-def view() -> None:
+def view_unsorted() -> None:
+    stmt: str = "SELECT id_curso AS Código, nm_curso AS Curso, hr_curso AS Horas FROM unibb"
+    print(pd.read_sql(sql=sa.text(stmt), con=engine))
+
+
+def view_sorted() -> None:
     stmt: str = "SELECT id_curso AS Código, nm_curso AS Curso, hr_curso AS Horas FROM unibb ORDER BY id_curso"
     print(pd.read_sql(sql=sa.text(stmt), con=engine))
 
@@ -43,8 +49,9 @@ if __name__ == "__main__":
 
         print("-" * 50)
         print(" 1 - Criar Nova Tabela...")
-        print(" 2 - Adicionar Novos Registros...")
-        print(" 3 - Visualizar Registros Selecionados...")
+        print(" 2 - Incluir Novos Cursos...")
+        print(" 3 - Exibir Cursos Não Ordenados...")
+        print(" 4 - Exibir Cursos Ordenados...")
         print("-" * 50)
 
         option: str = input("Escolha a opção acima (ou tecla ENTER para sair) → ")
@@ -52,7 +59,8 @@ if __name__ == "__main__":
         match option:
             case "1": create()
             case "2": add()
-            case "3": view()
+            case "3": view_unsorted()
+            case "4": view_sorted()
             case _: break
 
         time.sleep(1.5)
