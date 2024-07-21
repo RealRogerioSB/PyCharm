@@ -58,10 +58,10 @@ def create() -> None:
 
 def add() -> None:
     new: list[dict[str: int | str | bool]] = [
-        {"concurso": 2743, "data": "2024-06-29", "bolas": "13 25 27 30 37 53", "ganhou": False},
+        # {"concurso": 2751, "data": "2024-07-20", "bolas": "04 13 18 42 52 53", "ganhou": False},
     ]
     rows_inserted: int = pd.DataFrame(new).to_sql(name="megasena", con=engine, if_exists="append", index=False)
-    print(f"Foram {rows_inserted} jogos inseridos com sucesso.")
+    print(f"Foi(ram) {rows_inserted} jogo(s) inserido(s) com sucesso.")
 
 
 def view() -> None:
