@@ -18,14 +18,6 @@ load_dotenv()
 
 engine: sa.Engine = sa.create_engine(os.getenv("URL_MYSQL"))
 
-releases: list[dict[str: str]] = [
-    # {"lançamento": "..."},
-]
-
-mirrors: list[dict[str: int | bool | float]] = [
-    # {"id_lançamento": 59, "período": 201903, "acerto": False, "valor": 1.9},
-]
-
 sqls: list[str] = [
     """
         CREATE TABLE IF NOT EXISTS lançamento (
@@ -42,7 +34,7 @@ sqls: list[str] = [
             valor DOUBLE NOT NULL
         )
     """,
-    "SELECT id_lançamento AS Código, lançamento AS Lançamento FROM lançamento ORDER BY id_lançamento",
+    "SELECT id_lançamento AS Código, lançamento AS Lançamento FROM lançamento",
     """
         SELECT id_lançamento AS Código, período AS Período, acerto AS Acerto, valor AS Valor FROM espelho
     """,
@@ -67,9 +59,10 @@ def create(stmt: str) -> None:
     print("Tabela criada com sucesso!")
 
 
-def add(tabela: str, lista: list[dict[str: int | str | bool | float]]) -> None:
-    rows_inserted: int = pd.DataFrame(lista).to_sql(name=tabela, con=engine, if_exists="append", index=False)
-    print(f"Foi(ram) {rows_inserted} lançamento(s) inserido(s) na tabela {tabela!r} com sucesso.")
+def add() -> None:
+    df_new: pd.DataFrame = pd.read_csv("../src/espelho.csv", encoding="utf-8-sig")
+    row_inserted: int = df_new.to_sql(name="espelho", con=engine, if_exists="append", index=False)
+    print(f"Foi(ram) {row_inserted} lançamento(s) inserido(s) com sucesso.")
 
 
 def view(stmt: str) -> None:
@@ -129,12 +122,11 @@ if __name__ == '__main__':
         print(" 1 - CREATE")
         print(" 2 - CREATE")
         print(" 3 - ADD")
-        print(" 4 - ADD")
+        print(" 4 - VIEW")
         print(" 5 - VIEW")
         print(" 6 - VIEW")
         print(" 7 - VIEW")
         print(" 8 - VIEW")
-        print(" 9 - VIEW")
         print("-" * 50)
 
         option: str = input("Escolha a opção acima (ou tecla ENTER para sair) → ")
@@ -142,13 +134,12 @@ if __name__ == '__main__':
         match option:
             case "1": create(stmt=sqls[0])
             case "2": create(stmt=sqls[1])
-            case "3": add(tabela="lançamento", lista=releases)
-            case "4": add(tabela="espelho", lista=mirrors)
-            case "5": view(stmt=sqls[2])
-            case "6": view(stmt=sqls[3])
-            case "7": view(stmt=sqls[4])
-            case "8": view(stmt=sqls[5])
-            case "9": view(stmt=sqls[6])
+            case "3": add()
+            case "4": view(stmt=sqls[2])
+            case "5": view(stmt=sqls[3])
+            case "6": view(stmt=sqls[4])
+            case "7": view(stmt=sqls[5])
+            case "8": view(stmt=sqls[6])
             case "v": visualizar()
             case _: break
 

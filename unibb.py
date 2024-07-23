@@ -25,16 +25,18 @@ def create() -> None:
 
 
 def add() -> None:
-    cursos: list[dict[str: int | str]] = [
-        # {"id_curso": 0, "nm_curso": "", "hr_curso": 0},
-    ]
-    df_new: pd.DataFrame = pd.DataFrame(cursos)
-    rows_inserted: int = df_new.to_sql(name="unibb", con=engine, if_exists="append", index=False)
-    print(f"Foram {rows_inserted} cursos inseridos com sucesso.")
+    try:
+        df_new: pd.DataFrame = pd.read_csv("../src/unibb.csv", encoding="utf-8-sig")
+        rows_inserted: int = df_new.to_sql(name="unibb", con=engine, if_exists="append", index=False)
+        print(f"Foram {rows_inserted} cursos inseridos com sucesso.")
+    except FileNotFoundError:
+        print("Erro ao localizar o arquivo .CSV...")
+    except UnicodeEncodeError:
+        print("Erro ao decodificar o arquivo .CSV...")
 
 
 def view_unsorted() -> None:
-    stmt: str = "SELECT id_curso AS Código, nm_curso AS Curso, hr_curso AS Horas FROM unibb"
+    stmt: str = "SELECT id_curso AS Código, nm_curso AS Curso, hr_curso AS Horas FROM unibb ORDER BY id"
     print(pd.read_sql(sql=sa.text(stmt), con=engine))
 
 
