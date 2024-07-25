@@ -1,51 +1,53 @@
-﻿id_curso,nm_curso,hr_curso
-11119,Playbook de Vendas: Capitalização,1
-11120,Playbook de Vendas: Consórcio,1
-11121,Playbook de Vendas: Previdência,1
-11122,Playbook de Vendas: Seguro para Vida,1
-11123,Playbook de Vendas: Seguro Prestamista,1
-201421,Gestão de produtos digitais: Product Discovery,6
-201629,Integração Contínua: mais qualidade e menos risco no desenvolvimento,6
-201718,UX: metodologias práticas para designers,10
-201799,Árvores de Decisão: aprofundando em modelos de Machine Learning,8
-202191,TypeScript parte 2: avançando na linguagem,10
-202192,TypeScript parte 3: mais técnicas e boas práticas,10
-202384,UX Writing: escrevendo textos para usuários,8
-202392,React: integrando seu projeto React com APIs,8
-202423,Modelos preditivos em dados: detecção de fraude,8
-202477,RoadMap: como criar e manter o mapa de produto,8
-202479,React: otimizando a performance,8
-202525,Estratégia Omnichannel: aumentando suas vendas,8
-202608,Value Stream Mapping (VSM): conheça o mapeamento de Fluxo de Valor,8
-202692,Cultura e Métodos Ágeis: pilares para uma imersão avançada,8
-202698,"Segurança de rede: firewall, WAF e SIEM",10
-202704,Design da proposta de valor: transformando produtos e serviços,8
-202716,User interface: conceitos de UI para product Designers,8
-202745,Ágil Escalado: conheça frameworks para grandes desenvolvimentos,6
-202782,Lean-Ágil: expanda horizontes para a organização toda,8
-202858,JAVA: criando a sua primeira aplicação,8
-202859,UX Design: entenda a área da User Experience,8
-203078,UX Writing: projetando um chatbot,8
-203167,Inteligência Artificial e UX: otimize a construção de um produto digital,8
-203844,dicas práticas de acessibilidade em ambientes de aprendizagem,4
-12327,Direito do Consumidor,2
-8996,Roda de Conversa 1 - Saúde Mental - Game 2 - Plano Ação,1
-8997,Roda de Conversa 2 - Avaliação de Reação,1
-8998,Roda de Conversa 3 - Avaliação de Reação,1
-11112,Sapiência - Outubro rosa - Previna-se contra o câncer de mama!,1
-11496,Sapiência - Assédio no Ambiente de Trabalho,1
-11586,Sapiência - Cuide mais de você,1
-11587,Sapiência - Desafios: como lidar com eles,1
-11588,Sapiência - Felicidade no trabalho,1
-11589,Use seu cérebro e mude seus hábitos,1
-11590,Home office com conforto,1
-11591,Sapiência - Foco e disciplina: comportamentos para produtividade e resultados,1
-11593,Simplicidade: como focar no que é importante,1
-11594,Lidando com o imprevisível,1
-11595,Cuidados com o sono,1
-11596,Alimentação e saúde no trabalho,1
-11597,Equilíbrio entre vida pessoal e profissional,1
-11655,Saúde da Mulher,1
-11733,Segurança Psicológica: reflexões no ambiente de trabalho,1
-12027,Impactos da Saúde Financeira na Saúde Mental,1
-12298,Estratégias de Enfrentamento,1
+﻿id_curso;nm_curso;hr_curso
+11119;Playbook de Vendas: Capitalização;1
+11120;Playbook de Vendas: Consórcio;1
+11121;Playbook de Vendas: Previdência;1
+11122;Playbook de Vendas: Seguro para Vida;1
+11123;Playbook de Vendas: Seguro Prestamista;1
+201421;Gestão de produtos digitais: Product Discovery;6
+201629;Integração Contínua: mais qualidade e menos risco no desenvolvimento;6
+201718;UX: metodologias práticas para designers;10
+201799;Árvores de Decisão: aprofundando em modelos de Machine Learning;8
+202191;TypeScript parte 2: avançando na linguagem;10
+202192;TypeScript parte 3: mais técnicas e boas práticas;10
+202384;UX Writing: escrevendo textos para usuários;8
+202392;React: integrando seu projeto React com APIs;8
+202423;Modelos preditivos em dados: detecção de fraude;8
+202477;RoadMap: como criar e manter o mapa de produto;8
+202479;React: otimizando a performance;8
+202525;Estratégia Omnichannel: aumentando suas vendas;8
+202608;Value Stream Mapping (VSM): conheça o mapeamento de Fluxo de Valor;8
+202692;Cultura e Métodos Ágeis: pilares para uma imersão avançada;8
+202698;Segurança de rede: firewall, WAF e SIEM;10
+202704;Design da proposta de valor: transformando produtos e serviços;8
+202716;User interface: conceitos de UI para product Designers;8
+202745;Ágil Escalado: conheça frameworks para grandes desenvolvimentos;6
+202782;Lean-Ágil: expanda horizontes para a organização toda;8
+202858;JAVA: criando a sua primeira aplicação;8
+202859;UX Design: entenda a área da User Experience;8
+203078;UX Writing: projetando um chatbot;8
+203167;Inteligência Artificial e UX: otimize a construção de um produto digital;8
+203844;dicas práticas de acessibilidade em ambientes de aprendizagem;4
+12327;Direito do Consumidor;2
+8996;Roda de Conversa 1 - Saúde Mental - Game 2 - Plano Ação;1
+8997;Roda de Conversa 2 - Avaliação de Reação;1
+8998;Roda de Conversa 3 - Avaliação de Reação;1
+11112;Sapiência - Outubro rosa - Previna-se contra o câncer de mama!;1
+11496;Sapiência - Assédio no Ambiente de Trabalho;1
+11586;Sapiência - Cuide mais de você;1
+11587;Sapiência - Desafios: como lidar com eles;1
+11588;Sapiência - Felicidade no trabalho;1
+11589;Use seu cérebro e mude seus hábitos;1
+11590;Home office com conforto;1
+11591;Sapiência - Foco e disciplina: comportamentos para produtividade e resultados;1
+11593;Simplicidade: como focar no que é importante;1
+11594;Lidando com o imprevisível;1
+11595;Cuidados com o sono;1
+11596;Alimentação e saúde no trabalho;1
+11597;Equilíbrio entre vida pessoal e profissional;1
+11655;Saúde da Mulher;1
+11733;Segurança Psicológica: reflexões no ambiente de trabalho;1
+12027;Impactos da Saúde Financeira na Saúde Mental;1
+12298;Estratégias de Enfrentamento;1
+7437;Jeito BB de Atender;1
+10652;Cadastro Pessoa Jurídica;2
