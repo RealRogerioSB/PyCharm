@@ -57,11 +57,9 @@ def create() -> None:
 
 
 def add() -> None:
-    new: list[dict[str: int | str | bool]] = [
-        # {"concurso": 2751, "data": "2024-07-20", "bolas": "04 13 18 42 52 53", "ganhou": False},
-    ]
-    rows_inserted: int = pd.DataFrame(new).to_sql(name="megasena", con=engine, if_exists="append", index=False)
-    print(f"Foi(ram) {rows_inserted} jogo(s) inserido(s) com sucesso.")
+    df_new: pd.DataFrame = pd.read_csv("../src/megasena.csv", encoding="utf-8-sig")
+    row_inserted: int = df_new.to_sql(name="megasena", con=engine, if_exists="append", index=False)
+    print(f"Foi(ram) {row_inserted} jogo(s) inserido(s) com sucesso.")
 
 
 def view() -> None:
