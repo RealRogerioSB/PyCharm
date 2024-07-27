@@ -34,16 +34,20 @@ sqls: list[str] = [
             valor DOUBLE NOT NULL
         )
     """,
-    "SELECT id_lançamento AS Código, lançamento AS Lançamento FROM lançamento",
+    """
+        SELECT id_lançamento AS Código, lançamento AS Lançamento FROM lançamento
+    """,
     """
         SELECT id_lançamento AS Código, período AS Período, acerto AS Acerto, valor AS Valor FROM espelho
     """,
-    f"""
+    """
         SELECT y.lançamento AS Lançamento, x.período AS Período, IF(x.acerto = 1, 'A', 'M') AS Acerto, x.valor AS Valor
         FROM espelho x LEFT JOIN lançamento y ON x.id_lançamento = y.id_lançamento
-        WHERE x.período = {datetime.now().year*100 + datetime.now().month}
+        WHERE x.período = YEAR(CURRENT_DATE()) * 100 + MONTH(CURRENT_DATE())
     """,
-    f"SELECT SUM(valor) AS Total FROM espelho WHERE período = {datetime.now().year*100 + datetime.now().month}",
+    """
+        SELECT SUM(valor) AS Total FROM espelho WHERE período = YEAR(CURRENT_DATE()) * 100 + MONTH(CURRENT_DATE())
+    """,
     """
         SELECT período AS Período, SUM(valor) AS Total
         FROM espelho
