@@ -146,9 +146,9 @@ def tk1():
             self.slider_2.configure(command=self.progressbar_3.set)
             self.progressbar_1.configure(mode="indeterminnate")
             self.progressbar_1.start()
-            self.textbox.insert("0.0", "CTkTextbox\n\n" + "Lorem ipsum dolor sit amet, consetetur sadipscing el" +
-                                "itr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat," +
-                                " sed diam voluptua.\n\n" * 20)
+            self.textbox.insert("0.0", "CTkTextbox\n\nLorem ipsum dolor sit amet, consetetur sadipscing elitr, " +
+                                "sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed " +
+                                "diam voluptua.\n\n" * 20)
             self.seg_button_1.configure(values=["CTkSegmentedButton", "Value 2", "Value 3"])
             self.seg_button_1.set("Value 2")
 
@@ -197,7 +197,7 @@ def tk2():
             # create login frame
             self.login_frame = ctk.CTkFrame(self, corner_radius=0)
             self.login_frame.grid(row=0, column=0, sticky="ns")
-            self.login_label = ctk.CTkLabel(self.login_frame, text="ctk\nPágina de Login",
+            self.login_label = ctk.CTkLabel(self.login_frame, text="customtkinter\nPágina de Login",
                                             font=ctk.CTkFont(size=20, weight="bold"))
             self.login_label.grid(row=0, column=0, padx=30, pady=(150, 15))
             self.username_entry = ctk.CTkEntry(self.login_frame, width=200, placeholder_text="usuário")
@@ -210,7 +210,7 @@ def tk2():
             # create main frame
             self.main_frame = ctk.CTkFrame(self, corner_radius=0)
             self.main_frame.grid_columnconfigure(0, weight=1)
-            self.main_label = ctk.CTkLabel(self.main_frame, text="ctk\nPágina Principal",
+            self.main_label = ctk.CTkLabel(self.main_frame, text="customtkinter\nPágina Principal",
                                            font=ctk.CTkFont(size=20, weight="bold"))
             self.main_label.grid(row=0, column=0, padx=30, pady=(30, 15))
             self.back_button = ctk.CTkButton(self.main_frame, text="Voltar", command=self.back_event, width=200)
