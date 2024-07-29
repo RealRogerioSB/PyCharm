@@ -72,8 +72,14 @@ def view() -> None:
 
 
 def mega_da_virada() -> None:
-    stmt: str = ("SELECT * FROM megasena WHERE data IN (SELECT MAX(data) FROM "
-                 "megasena GROUP BY YEAR(data) HAVING YEAR(data) <> YEAR(CURRENT_DATE))")
+    stmt: str = """
+        SELECT * FROM megasena
+        WHERE data IN (
+            SELECT MAX(data)
+            FROM megasena
+            GROUP BY YEAR(data)
+            HAVING YEAR(data) <> YEAR(CURRENT_DATE))
+    """
 
     df_mega_da_virada: pd.DataFrame = pd.read_sql(sql=sa.text(stmt), con=engine)
     df_mega_da_virada["concurso"] = df_mega_da_virada["concurso"].astype(str).str.zfill(4)
