@@ -76,7 +76,7 @@ def columns(table: pd.DataFrame) -> pd.DataFrame:
     table["acerto_5"] = np.where(table["acerto_5"].ne(0), table["acerto_5"].astype(str), "Ninguém")
     table["acerto_4"] = np.where(table["acerto_4"].ne(0), table["acerto_4"].astype(str), "Ninguém")
     table.columns = ["Concurso", "Data", "Bolas", "Acerto para 6", "Rateio para 6", "Acerto para 5",
-                     "Rateio para 5", "Acerto para 4", "Rateio para 4", ]
+                     "Rateio para 5", "Acerto para 4", "Rateio para 4"]
     return table
 
 
@@ -115,42 +115,47 @@ def mega_da_virada() -> None:
 
 
 def acertei_minhas_apostas() -> None:
-    mega: dict[str: list] = {"Concurso": [], "Data": [], "Bolas": [], "Aposta n.°": [], "Acertos": [], "Rateio": []}
+    for r in range(6, 3, -1):
+        mega: dict[str: list] = {"Concurso": [], "Data": [], "Bolas": [], "Aposta n.°": []}
 
-    for row in pd.read_sql(sql=sa.text("SELECT * FROM megasena"), con=engine).itertuples(index=False, name=None):
-        for aposta in minhas_apostas:
-            bolas: list[str] = aposta.split()
-            match: list[str] = []
-            for x in range(6):
-                if bolas[x] in row[2]:
-                    match.append(bolas[x])
-            if len(match) >= 4:
-                mega["Concurso"].append(str(row[0]).zfill(4))
-                mega["Data"].append(pd.to_datetime(row[1]).strftime("%x (%a)"))
-                mega["Bolas"].append(" ".join(match))
-                mega["Aposta n.°"].append(minhas_apostas.index(aposta) + 1)
-                mega["Acertos"].append(len(match))
-                mega["Rateio"].append(row[4])
+        stmt: str = f"SELECT concurso, data, bolas, acerto_{r}, rateio_{r} FROM megasena"
 
-    print(pd.DataFrame(mega)) if len(pd.DataFrame(mega)) != 0 else print("Suas apostas não tiveram acertos...\n")
+        for row in pd.read_sql(sql=sa.text(stmt), con=engine).itertuples(index=False, name=None):
+            for aposta in minhas_apostas:
+                bolas: list[str] = aposta.split()
+                match: list[str] = []
+
+                for x in range(6):
+                    if bolas[x] in row[2]:
+                        match.append(bolas[x])
+
+                if len(match) == r:
+                    mega["Concurso"].append(str(row[0]).zfill(4))
+                    mega["Data"].append(pd.to_datetime(row[1]).strftime("%x (%a)"))
+                    mega["Bolas"].append(" ".join(match))
+                    mega["Aposta n.°"].append(minhas_apostas.index(aposta) + 1)
+
+        print(f"\nLista de {r} acertos:")
+        print(pd.DataFrame(mega)) if len(pd.DataFrame(mega)) != 0 else print("Suas apostas não tiveram acertos...")
 
 
 def acertou_sua_aposta() -> None:
     sua_aposta: str = input("Sua aposta: ")
 
-    mega: dict[str: list] = {"Concurso": [], "Data": [], "Bolas": [], "Acertos": [], "Rateio": []}
+    mega: dict[str: list] = {"Concurso": [], "Data": [], "Bolas": [], "Acertos": []}
 
     for row in pd.read_sql(sql=sa.text("SELECT * FROM megasena"), con=engine).itertuples(index=False, name=None):
         match: list[str] = []
+
         for aposta in sua_aposta.split():
             if aposta in row[2]:
                 match.append(aposta)
+
         if len(match) >= 4:
             mega["Concurso"].append(str(row[0]).zfill(4))
             mega["Data"].append(pd.to_datetime(row[1]).strftime("%x (%a)"))
             mega["Bolas"].append(row[2])
             mega["Acertos"].append(len(match))
-            mega["Rateio"].append(row[4])
 
     print(pd.DataFrame(mega)) if len(pd.DataFrame(mega)) != 0 else print("Sua aposta não teve acertos...\n")
 
