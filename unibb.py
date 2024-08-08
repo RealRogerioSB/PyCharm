@@ -26,7 +26,8 @@ def create() -> None:
 
 def add() -> None:
     try:
-        df_new: pd.DataFrame = pd.read_csv("../src/unibb.csv", encoding="utf-8-sig")
+        df_new: pd.DataFrame = pd.read_csv("../src/unibb.csv", sep=";")
+        df_new = df_new[df_new["save"] == 1][["id_curso", "nm_curso", "hr_curso"]]
         rows_inserted: int = df_new.to_sql(name="unibb", con=engine, if_exists="append", index=False)
         print(f"Foram {rows_inserted} cursos inseridos com sucesso.")
     except FileNotFoundError:
