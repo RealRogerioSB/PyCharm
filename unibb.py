@@ -26,7 +26,7 @@ def create() -> None:
 
 def add() -> None:
     try:
-        df_new: pd.DataFrame = pd.read_csv("../src/unibb.csv", sep=";")
+        df_new: pd.DataFrame = pd.read_csv("../src/unibb.csv", encoding="utf-8-sig")
         df_new = df_new[df_new["save"] == 1][["id_curso", "nm_curso", "hr_curso"]]
         rows_inserted: int = df_new.to_sql(name="unibb", con=engine, if_exists="append", index=False)
         print(f"Foram {rows_inserted} cursos inseridos com sucesso.")
@@ -46,6 +46,15 @@ def view_sorted() -> None:
     print(pd.read_sql(sql=sa.text(stmt), con=engine))
 
 
+def duplicate_courses() -> None:
+    stmt: str = """
+        SELECT id_curso AS Código, nm_curso AS Curso, hr_curso AS Horas FROM unibb WHERE nm_curso IN (
+            SELECT nm_curso FROM unibb GROUP BY nm_curso HAVING COUNT(nm_curso) > 1
+        ) ORDER BY nm_curso, id_curso
+    """
+    print(pd.read_sql(sql=sa.text(stmt), con=engine))
+
+
 if __name__ == "__main__":
     while True:
         os.system("cls" if os.name == "nt" else "clear")
@@ -55,6 +64,7 @@ if __name__ == "__main__":
         print(" 2 - Incluir Novos Cursos...")
         print(" 3 - Exibir Cursos Não Ordenados...")
         print(" 4 - Exibir Cursos Ordenados...")
+        print(" 5 - Exibir Cursos Duplicados...")
         print("-" * 50)
 
         option: str = input("Escolha a opção acima (ou tecla ENTER para sair) → ")
@@ -64,6 +74,7 @@ if __name__ == "__main__":
             case "2": add()
             case "3": view_unsorted()
             case "4": view_sorted()
+            case "5": duplicate_courses()
             case _: break
 
         time.sleep(1.5)

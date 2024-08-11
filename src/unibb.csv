@@ -1,37 +1,37 @@
-﻿id_curso;nm_curso;hr_curso;save
-11119;Playbook de Vendas: Capitalização;1;0
-11120;Playbook de Vendas: Consórcio;1;0
-11121;Playbook de Vendas: Previdência;1;0
-11122;Playbook de Vendas: Seguro para Vida;1;0
-11123;Playbook de Vendas: Seguro Prestamista;1;0
-201421;Gestão de produtos digitais: Product Discovery;6;0
-201629;Integração Contínua: mais qualidade e menos risco no desenvolvimento;6;0
-201799;Árvores de Decisão: aprofundando em modelos de Machine Learning;8;0
-202191;TypeScript parte 2: avançando na linguagem;10;0
-202192;TypeScript parte 3: mais técnicas e boas práticas;10;0
-202384;UX Writing: escrevendo textos para usuários;8;0
-202392;React: integrando seu projeto React com APIs;8;0
-202423;Modelos preditivos em dados: detecção de fraude;8;0
-202477;RoadMap: como criar e manter o mapa de produto;8;0
-202479;React: otimizando a performance;8;0
-202525;Estratégia Omnichannel: aumentando suas vendas;8;0
-202608;Value Stream Mapping (VSM): conheça o mapeamento de Fluxo de Valor;8;0
-202698;Segurança de rede: firewall e WAF e SIEM;10;0
-202716;User interface: conceitos de UI para product Designers;8;0
-202745;Ágil Escalado: conheça frameworks para grandes desenvolvimentos;6;0
-202782;Lean-Ágil: expanda horizontes para a organização toda;8;0
-202858;JAVA: criando a sua primeira aplicação;8;0
-202859;UX Design: entenda a área da User Experience;8;0
-203078;UX Writing: projetando um chatbot;8;0
-203167;Inteligência Artificial e UX: otimize a construção de um produto digital;8;0
-7437;Jeito BB de Atender Empresas - Mudança;1;0
-10652;Cadastro Pessoa Jurídica;2;0
-202966;Inovação Ágil: gerencie projetos inovadores com eficiência e agilidade;6;1
-203119;Gestão Ágil: Gestão de Processos para Agilidade;8;1
-203086;Kafka e Spring: integrando aplicações e gerenciando fluxos de dados;8;1
-202689;Apache Airflow: transformação de dados com Spark;10;1
-202185;Google Kubernetes Engine;8;1
-202231;Cloud Onboarding: trabalhando com os principais provedores;10;1
-202249;Microsserviços: explorando os conceitos;8;1
-4105;Sapiência - Motivação;1;0
-3790;Sapiência - Matemática Financeira;3;0
+﻿id_curso,nm_curso,hr_curso,save
+11119,Playbook de Vendas: Capitalização,1,0
+11120,Playbook de Vendas: Consórcio,1,0
+11121,Playbook de Vendas: Previdência,1,0
+11122,Playbook de Vendas: Seguro para Vida,1,0
+11123,Playbook de Vendas: Seguro Prestamista,1,0
+201421,Gestão de produtos digitais: Product Discovery,6,0
+201629,Integração Contínua: mais qualidade e menos risco no desenvolvimento,6,0
+201799,Árvores de Decisão: aprofundando em modelos de Machine Learning,8,0
+202191,TypeScript parte 2: avançando na linguagem,10,0
+202192,TypeScript parte 3: mais técnicas e boas práticas,10,0
+202384,UX Writing: escrevendo textos para usuários,8,0
+202392,React: integrando seu projeto React com APIs,8,0
+202423,Modelos preditivos em dados: detecção de fraude,8,0
+202477,RoadMap: como criar e manter o mapa de produto,8,0
+202479,React: otimizando a performance,8,0
+202525,Estratégia Omnichannel: aumentando suas vendas,8,0
+202608,Value Stream Mapping (VSM): conheça o mapeamento de Fluxo de Valor,8,0
+202698,Segurança de rede: firewall e WAF e SIEM,10,0
+202716,User interface: conceitos de UI para product Designers,8,0
+202745,Ágil Escalado: conheça frameworks para grandes desenvolvimentos,6,0
+202782,Lean-Ágil: expanda horizontes para a organização toda,8,0
+202858,JAVA: criando a sua primeira aplicação,8,0
+202859,UX Design: entenda a área da User Experience,8,0
+203078,UX Writing: projetando um chatbot,8,0
+203167,Inteligência Artificial e UX: otimize a construção de um produto digital,8,0
+7437,Jeito BB de Atender Empresas - Mudança,1,0
+10652,Cadastro Pessoa Jurídica,2,0
+202966,Inovação Ágil: gerencie projetos inovadores com eficiência e agilidade,6,1
+203119,Gestão Ágil: Gestão de Processos para Agilidade,8,1
+203086,Kafka e Spring: integrando aplicações e gerenciando fluxos de dados,8,1
+202689,Apache Airflow: transformação de dados com Spark,10,1
+202185,Google Kubernetes Engine,8,1
+202231,Cloud Onboarding: trabalhando com os principais provedores,10,1
+202249,Microsserviços: explorando os conceitos,8,1
+4105,Sapiência - Motivação,1,0
+3790,Sapiência - Matemática Financeira,3,0

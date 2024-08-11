@@ -160,6 +160,24 @@ def acertou_sua_aposta() -> None:
     print(pd.DataFrame(mega)) if len(pd.DataFrame(mega)) != 0 else print("Sua aposta não teve acertos...\n")
 
 
+def quantas_bolas_acertas() -> None:
+    apostas: dict[int: int] = {}
+
+    for x in minhas_apostas:
+        y: list[str] = x.split()
+        for z in range(len(y)):
+            try:
+                apostas[int(y[z])] += 1
+            except KeyError:
+                apostas[int(y[z])] = 1
+
+    apostas_ordenadas: dict[int: int] = {k: v for k, v in sorted(apostas.items(), key=lambda s: s[0])}
+
+    acertos: pd.DataFrame = pd.DataFrame(data=apostas_ordenadas, index=["acertos"])
+    acertos.index.name = "bolas"
+    print(acertos)
+
+
 if __name__ == "__main__":
     while True:
         os.system("cls" if os.name == "nt" else "clear")
@@ -171,6 +189,7 @@ if __name__ == "__main__":
         print(" 4 - Exibir Os Jogos da Mega Da Virada...")
         print(" 5 - Ver Se Acertei Minhas Apostas...")
         print(" 6 - Ver Se Acertou Sua Aposta...")
+        print(" 7 - Ver Quantas Bolas Acertas...")
         print("-" * 50)
 
         option: str = input("Escolha a opção acima (ou tecla ENTER para sair) → ")
@@ -182,4 +201,5 @@ if __name__ == "__main__":
             case "4": mega_da_virada()
             case "5": acertei_minhas_apostas()
             case "6": acertou_sua_aposta()
+            case "7": quantas_bolas_acertas()
             case _: break
