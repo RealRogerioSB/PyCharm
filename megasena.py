@@ -5,16 +5,19 @@ from dotenv import load_dotenv
 import numpy as np
 import pandas as pd
 import sqlalchemy as sa
+# import streamlit as st
 
 locale.setlocale(locale.LC_ALL, "pt_BR.UTF-8")
 locale.setlocale(locale.LC_MONETARY, "pt_BR.UTF-8")
 
-pd.set_option("display.float_format", lambda x: locale.currency(val=x, grouping=True))
+pd.set_option("display.float_format", lambda x: f"R$ {locale.currency(val=x, symbol=False, grouping=True)}")
 pd.set_option("display.max_columns", None)
 
 load_dotenv()
 
 engine: sa.Engine = sa.create_engine(os.getenv("URL_MYSQL"))
+
+# st.set_page_config(page_title="Mega-sena")
 
 minhas_apostas: tuple = (
     "05 15 26 27 46 53",  # aposta n.° 1
@@ -64,9 +67,18 @@ def create() -> None:
 
 
 def add() -> None:
-    df_new: pd.DataFrame = pd.read_csv("../src/megasena.csv", encoding="utf-8-sig")
-    row_inserted: int = df_new.to_sql(name="megasena", con=engine, if_exists="append", index=False)
-    print(f"Foi(ram) {row_inserted} jogo(s) inserido(s) com sucesso.")
+    df: pd.DataFrame = pd.read_excel("~/Downloads/Mega-Sena.xlsx")
+    df["Data do Sorteio"] = pd.to_datetime(df["Data do Sorteio"], format="%d/%m/%Y")
+    for col in df.columns[2:8]:
+        df[col] = df[col].astype(str).str.zfill(2)
+    df["bolas"] = df[df.columns[2:8]].apply(" ".join, axis=1)
+    for col in ["Rateio 6 acertos", "Rateio 5 acertos", "Rateio 4 acertos"]:
+        df[col] = df[col].astype(str).str.replace(r"\D", "", regex=True).astype(float) / 100
+    df = df[["Concurso", "Data do Sorteio", "bolas", "Ganhadores 6 acertos", "Rateio 6 acertos",
+             "Ganhadores 5 acertos", "Rateio 5 acertos", "Ganhadores 4 acertos", "Rateio 4 acertos"]]
+    df.columns = ["concurso", "data", "bolas", "acerto_6", "rateio_6", "acerto_5", "rateio_5", "acerto_4", "rateio_4"]
+    row_inserted: int = df.to_sql(name="megasena", con=engine, if_exists="replace", index=False)
+    print(f"Foram {row_inserted} jogos inseridos com sucesso.")
 
 
 def columns(table: pd.DataFrame) -> pd.DataFrame:
@@ -81,37 +93,16 @@ def columns(table: pd.DataFrame) -> pd.DataFrame:
 
 
 def view() -> None:
-    df: pd.DataFrame = columns(pd.read_sql(sql=sa.text("SELECT * FROM megasena"), con=engine))
-    print(df.tail(25))
+    print(columns(pd.read_sql(sql=sa.text("SELECT * FROM megasena"), con=engine)).tail(25))
 
 
 def mega_da_virada() -> None:
     stmt: str = """
-        SELECT
-            concurso AS Concurso,
-            data AS Data,
-            bolas AS Bolas,
-            CASE acerto_6
-                WHEN 0 THEN 'Ninguém acertou...'
-                WHEN 1 THEN 'Só 1 acertou...'
-                ELSE CONCAT('Só ', acerto_6, ' acertaram...')
-            END AS 'Acertou?',
-            rateio_6 AS Rateio
-        FROM
-            megasena
-        WHERE
-            data IN (
-                SELECT MAX(data)
-                FROM megasena
-                GROUP BY YEAR(data)
-                HAVING YEAR(data) <> YEAR(CURRENT_DATE)
-            )
+        SELECT * FROM megasena WHERE data IN (
+            SELECT MAX(data) FROM megasena GROUP BY YEAR(data) HAVING YEAR(data) <> YEAR(CURRENT_DATE)
+        )
     """
-
-    df_mega_da_virada: pd.DataFrame = pd.read_sql(sql=sa.text(stmt), con=engine)
-    df_mega_da_virada["Concurso"] = df_mega_da_virada["Concurso"].astype(str).str.zfill(4)
-    df_mega_da_virada["Data"] = pd.to_datetime(df_mega_da_virada["Data"]).dt.strftime("%x (%a)")
-    print(df_mega_da_virada)
+    print(columns(pd.read_sql(sql=sa.text(stmt), con=engine)))
 
 
 def acertei_minhas_apostas() -> None:
@@ -182,7 +173,7 @@ if __name__ == "__main__":
     while True:
         os.system("cls" if os.name == "nt" else "clear")
 
-        print("-" * 50)
+        print("-" * 80)
         print(" 1 - Criar Nova Tabela...")
         print(" 2 - Incluir Novos Jogos...")
         print(" 3 - Exibir 25 Últimos Jogos...")
@@ -190,16 +181,24 @@ if __name__ == "__main__":
         print(" 5 - Ver Se Acertei Minhas Apostas...")
         print(" 6 - Ver Se Acertou Sua Aposta...")
         print(" 7 - Ver Quantas Bolas Acertas...")
-        print("-" * 50)
+        print("-" * 80)
 
         option: str = input("Escolha a opção acima (ou tecla ENTER para sair) → ")
 
         match option:
-            case "1": create()
-            case "2": add()
-            case "3": view()
-            case "4": mega_da_virada()
-            case "5": acertei_minhas_apostas()
-            case "6": acertou_sua_aposta()
-            case "7": quantas_bolas_acertas()
-            case _: break
+            case "1":
+                create()
+            case "2":
+                add()
+            case "3":
+                view()
+            case "4":
+                mega_da_virada()
+            case "5":
+                acertei_minhas_apostas()
+            case "6":
+                acertou_sua_aposta()
+            case "7":
+                quantas_bolas_acertas()
+            case _:
+                break
