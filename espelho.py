@@ -64,9 +64,9 @@ def create(stmt: str) -> None:
 
 
 def add() -> None:
-    df_new: pd.DataFrame = pd.read_csv("../src/espelho.csv", encoding="utf-8-sig")
+    df_new: pd.DataFrame = pd.read_csv("./src/espelho.csv", sep=",", encoding="utf-8-sig")
     row_inserted: int = df_new.to_sql(name="espelho", con=engine, if_exists="append", index=False)
-    print(f"Foi(ram) {row_inserted} lançamento(s) inserido(s) com sucesso.")
+    print(f"Foram {row_inserted} lançamentos inseridos com sucesso.")
 
 
 def view(stmt: str) -> None:
