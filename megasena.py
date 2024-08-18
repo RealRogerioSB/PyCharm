@@ -44,8 +44,8 @@ minhas_apostas: tuple = (
 def create() -> None:
     stmt: str = """
         CREATE TABLE IF NOT EXISTS megasena (
-            concurso SMALLINT UNSIGNED NOT NULL,
-            data DATE NOT NULL,
+            id_sorteio SMALLINT UNSIGNED NOT NULL,
+            dt_sorteio DATE NOT NULL,
             bolas VARCHAR(17) NOT NULL,
             acerto_6 MEDIUMINT UNSIGNED NOT NULL,
             rateio_6 DOUBLE NOT NULL,
@@ -53,17 +53,18 @@ def create() -> None:
             rateio_5 DOUBLE NOT NULL,
             acerto_4 MEDIUMINT UNSIGNED NOT NULL,
             rateio_4 DOUBLE NOT NULL,
-            PRIMARY KEY (concurso, data)
+            PRIMARY KEY (id_sorteio, dt_sorteio)
         )
     """
 
     with engine.begin() as cnx:
         try:
+            cnx.execute(sa.text("DROP TABLE IF EXISTS megasena"))
             cnx.execute(sa.text(stmt))
         except sa.exc.OperationalError:
             print("Deu erro ao criar a tabela...")
         else:
-            print("Tabela criada com sucesso.")
+            print("Tabela deletada e recriada com sucesso.")
 
 
 def add() -> None:
@@ -76,14 +77,18 @@ def add() -> None:
         df[col] = df[col].astype(str).str.replace(r"\D", "", regex=True).astype(float) / 100
     df = df[["Concurso", "Data do Sorteio", "bolas", "Ganhadores 6 acertos", "Rateio 6 acertos",
              "Ganhadores 5 acertos", "Rateio 5 acertos", "Ganhadores 4 acertos", "Rateio 4 acertos"]]
-    df.columns = ["concurso", "data", "bolas", "acerto_6", "rateio_6", "acerto_5", "rateio_5", "acerto_4", "rateio_4"]
-    row_inserted: int = df.to_sql(name="megasena", con=engine, if_exists="replace", index=False)
+    df.columns = ["id_sorteio", "dt_sorteio", "bolas", "acerto_6",
+                  "rateio_6", "acerto_5", "rateio_5", "acerto_4", "rateio_4"]
+    df.set_index("id_sorteio", inplace=True)
+    df.loc[2701] = ["2024-03-16", "06 15 18 31 32 47", 0, 0.0, 72, 59349.01, 5712, 1068.7]
+    df = df.reset_index().sort_values(by=["id_sorteio", "dt_sorteio"], ignore_index=True)
+    row_inserted: int = df.to_sql(name="megasena", con=engine, if_exists="append", index=False)
     print(f"Foram {row_inserted} jogos inseridos com sucesso.")
 
 
 def columns(table: pd.DataFrame) -> pd.DataFrame:
-    table["concurso"] = table["concurso"].astype(str).str.zfill(4)
-    table["data"] = pd.to_datetime(table["data"]).dt.strftime("%x (%a)")
+    table["id_sorteio"] = table["id_sorteio"].astype(str).str.zfill(4)
+    table["dt_sorteio"] = pd.to_datetime(table["dt_sorteio"]).dt.strftime("%x (%a)")
     table["acerto_6"] = np.where(table["acerto_6"].ne(0), table["acerto_6"].astype(str), "Ninguém")
     table["acerto_5"] = np.where(table["acerto_5"].ne(0), table["acerto_5"].astype(str), "Ninguém")
     table["acerto_4"] = np.where(table["acerto_4"].ne(0), table["acerto_4"].astype(str), "Ninguém")
@@ -98,8 +103,8 @@ def view() -> None:
 
 def mega_da_virada() -> None:
     stmt: str = """
-        SELECT * FROM megasena WHERE data IN (
-            SELECT MAX(data) FROM megasena GROUP BY YEAR(data) HAVING YEAR(data) <> YEAR(CURRENT_DATE)
+        SELECT * FROM megasena WHERE dt_sorteio IN (
+            SELECT MAX(dt_sorteio) FROM megasena GROUP BY YEAR(dt_sorteio) HAVING YEAR(dt_sorteio) <> YEAR(CURRENT_DATE)
         )
     """
     print(columns(pd.read_sql(sql=sa.text(stmt), con=engine)))
@@ -109,7 +114,7 @@ def acertei_minhas_apostas() -> None:
     for r in range(6, 3, -1):
         mega: dict[str: list] = {"Concurso": [], "Data": [], "Bolas": [], "Aposta n.°": []}
 
-        stmt: str = f"SELECT concurso, data, bolas, acerto_{r}, rateio_{r} FROM megasena"
+        stmt: str = f"SELECT id_sorteio, dt_sorteio, bolas, acerto_{r}, rateio_{r} FROM megasena"
 
         for row in pd.read_sql(sql=sa.text(stmt), con=engine).itertuples(index=False, name=None):
             for aposta in minhas_apostas:
