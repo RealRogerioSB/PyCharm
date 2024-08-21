@@ -30,5 +30,4 @@ def main(page: ft.Page):
     )
 
 
-ft.app(target=main, view=ft.AppView.FLET_APP)
-# ft.app(target=main, view=ft.AppView.WEB_BROWSER)
+ft.app(target=main, view=ft.AppView.FLET_APP)  # ou view=ft.AppView.WEB_BROWSER
