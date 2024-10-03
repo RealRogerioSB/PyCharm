@@ -1,3 +1,4 @@
+#%%
 import requests
 
 cep = "41098040"
@@ -10,6 +11,7 @@ for k, v in dic_request_cep.items():
 
 print("-------------------------------------------------------------")
 
+#%%
 uf = "BA"
 cidade = "Salvador"
 logradouro = "Rua Thomaz Gonzaga"

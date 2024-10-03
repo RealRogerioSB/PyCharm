@@ -1,3 +1,4 @@
+#%%
 import locale
 import os
 
@@ -5,7 +6,6 @@ from dotenv import load_dotenv
 import numpy as np
 import pandas as pd
 import sqlalchemy as sa
-# import streamlit as st
 
 locale.setlocale(locale.LC_ALL, "pt_BR.UTF-8")
 locale.setlocale(locale.LC_MONETARY, "pt_BR.UTF-8")
@@ -17,7 +17,6 @@ load_dotenv()
 
 engine: sa.Engine = sa.create_engine(os.getenv("URL_MYSQL"))
 
-# st.set_page_config(page_title="Mega-sena")
 
 minhas_apostas: tuple = (
     "05 15 26 27 46 53",  # aposta n.° 1
@@ -40,7 +39,7 @@ minhas_apostas: tuple = (
     "01 16 21 34 49 54",  # aposta n.° 18
 )
 
-
+#%%
 def create() -> None:
     stmt: str = """
         CREATE TABLE IF NOT EXISTS megasena (
@@ -174,6 +173,7 @@ def quantas_bolas_acertas() -> None:
     print(acertos)
 
 
+#%%
 if __name__ == "__main__":
     while True:
         os.system("cls" if os.name == "nt" else "clear")
