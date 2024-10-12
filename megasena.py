@@ -63,23 +63,22 @@ with engine.begin() as cnx:
     else:
         print("Tabela deletada e recriada com sucesso.")
 
-#%%
-df: pd.DataFrame = pd.read_excel("~/Downloads/Mega-Sena.xlsx")
-df["Data do Sorteio"] = pd.to_datetime(df["Data do Sorteio"], format="%d/%m/%Y")
-for col in df.columns[2:8]:
-    df[col] = df[col].astype(str).str.zfill(2)
-df["bolas"] = df[df.columns[2:8]].apply(" ".join, axis=1)
-for col in ["Rateio 6 acertos", "Rateio 5 acertos", "Rateio 4 acertos"]:
-    df[col] = df[col].astype(str).str.replace(r"\D", "", regex=True).astype(float) / 100
-df = df[["Concurso", "Data do Sorteio", "bolas", "Ganhadores 6 acertos", "Rateio 6 acertos",
-         "Ganhadores 5 acertos", "Rateio 5 acertos", "Ganhadores 4 acertos", "Rateio 4 acertos"]]
-df.columns = ["id_sorteio", "dt_sorteio", "bolas", "acerto_6",
-              "rateio_6", "acerto_5", "rateio_5", "acerto_4", "rateio_4"]
-df.set_index("id_sorteio", inplace=True)
-df.loc[2701] = ["2024-03-16", "06 15 18 31 32 47", 0, 0.0, 72, 59349.01, 5712, 1068.7]
-df = df.reset_index().sort_values(by=["id_sorteio", "dt_sorteio"], ignore_index=True)
-row_inserted: int = df.to_sql(name="megasena", con=engine, if_exists="append", index=False)
-print(f"Foram {row_inserted} jogos inseridos com sucesso.")
+        df: pd.DataFrame = pd.read_excel("~/Downloads/Mega-Sena.xlsx")
+        df["Data do Sorteio"] = pd.to_datetime(df["Data do Sorteio"], format="%d/%m/%Y")
+        for col in df.columns[2:8]:
+            df[col] = df[col].astype(str).str.zfill(2)
+        df["bolas"] = df[df.columns[2:8]].apply(" ".join, axis=1)
+        for col in ["Rateio 6 acertos", "Rateio 5 acertos", "Rateio 4 acertos"]:
+            df[col] = df[col].astype(str).str.replace(r"\D", "", regex=True).astype(float) / 100
+        df = df[["Concurso", "Data do Sorteio", "bolas", "Ganhadores 6 acertos", "Rateio 6 acertos",
+                 "Ganhadores 5 acertos", "Rateio 5 acertos", "Ganhadores 4 acertos", "Rateio 4 acertos"]]
+        df.columns = ["id_sorteio", "dt_sorteio", "bolas", "acerto_6",
+                      "rateio_6", "acerto_5", "rateio_5", "acerto_4", "rateio_4"]
+        df.set_index("id_sorteio", inplace=True)
+        df.loc[2701] = ["2024-03-16", "06 15 18 31 32 47", 0, 0.0, 72, 59349.01, 5712, 1068.7]
+        df = df.reset_index().sort_values(by=["id_sorteio", "dt_sorteio"], ignore_index=True)
+        row_inserted: int = df.to_sql(name="megasena", con=engine, if_exists="append", index=False)
+        print(f"Foram {row_inserted} jogos inseridos com sucesso.")
 
 #%%
 print(pd.read_sql(sql=sa.text("SELECT * FROM megasena"), con=engine).tail(25))
