@@ -3,14 +3,13 @@ import locale
 import os
 
 from dotenv import load_dotenv
-import numpy as np
 import pandas as pd
 import sqlalchemy as sa
 
 locale.setlocale(locale.LC_ALL, "pt_BR.UTF-8")
 locale.setlocale(locale.LC_MONETARY, "pt_BR.UTF-8")
 
-pd.set_option("display.float_format", lambda x: f"R$ {locale.currency(val=x, symbol=False, grouping=True)}")
+pd.set_option("display.float_format", lambda val: f"R$ {locale.currency(val=val, symbol=False, grouping=True)}")
 pd.set_option("display.max_columns", None)
 
 load_dotenv()
@@ -40,170 +39,116 @@ minhas_apostas: tuple = (
 )
 
 #%%
-def create() -> None:
-    stmt: str = """
-        CREATE TABLE IF NOT EXISTS megasena (
-            id_sorteio SMALLINT UNSIGNED NOT NULL,
-            dt_sorteio DATE NOT NULL,
-            bolas VARCHAR(17) NOT NULL,
-            acerto_6 MEDIUMINT UNSIGNED NOT NULL,
-            rateio_6 DOUBLE NOT NULL,
-            acerto_5 MEDIUMINT UNSIGNED NOT NULL,
-            rateio_5 DOUBLE NOT NULL,
-            acerto_4 MEDIUMINT UNSIGNED NOT NULL,
-            rateio_4 DOUBLE NOT NULL,
-            PRIMARY KEY (id_sorteio, dt_sorteio)
-        )
-    """
+stmt: str = """
+    CREATE TABLE IF NOT EXISTS megasena (
+        id_sorteio SMALLINT UNSIGNED NOT NULL,
+        dt_sorteio DATE NOT NULL,
+        bolas VARCHAR(17) NOT NULL,
+        acerto_6 MEDIUMINT UNSIGNED NOT NULL,
+        rateio_6 DOUBLE NOT NULL,
+        acerto_5 MEDIUMINT UNSIGNED NOT NULL,
+        rateio_5 DOUBLE NOT NULL,
+        acerto_4 MEDIUMINT UNSIGNED NOT NULL,
+        rateio_4 DOUBLE NOT NULL,
+        PRIMARY KEY (id_sorteio, dt_sorteio)
+    )
+"""
 
-    with engine.begin() as cnx:
-        try:
-            cnx.execute(sa.text("DROP TABLE IF EXISTS megasena"))
-            cnx.execute(sa.text(stmt))
-        except sa.exc.OperationalError:
-            print("Deu erro ao criar a tabela...")
-        else:
-            print("Tabela deletada e recriada com sucesso.")
-
-
-def add() -> None:
-    df: pd.DataFrame = pd.read_excel("~/Downloads/Mega-Sena.xlsx")
-    df["Data do Sorteio"] = pd.to_datetime(df["Data do Sorteio"], format="%d/%m/%Y")
-    for col in df.columns[2:8]:
-        df[col] = df[col].astype(str).str.zfill(2)
-    df["bolas"] = df[df.columns[2:8]].apply(" ".join, axis=1)
-    for col in ["Rateio 6 acertos", "Rateio 5 acertos", "Rateio 4 acertos"]:
-        df[col] = df[col].astype(str).str.replace(r"\D", "", regex=True).astype(float) / 100
-    df = df[["Concurso", "Data do Sorteio", "bolas", "Ganhadores 6 acertos", "Rateio 6 acertos",
-             "Ganhadores 5 acertos", "Rateio 5 acertos", "Ganhadores 4 acertos", "Rateio 4 acertos"]]
-    df.columns = ["id_sorteio", "dt_sorteio", "bolas", "acerto_6",
-                  "rateio_6", "acerto_5", "rateio_5", "acerto_4", "rateio_4"]
-    df.set_index("id_sorteio", inplace=True)
-    df.loc[2701] = ["2024-03-16", "06 15 18 31 32 47", 0, 0.0, 72, 59349.01, 5712, 1068.7]
-    df = df.reset_index().sort_values(by=["id_sorteio", "dt_sorteio"], ignore_index=True)
-    row_inserted: int = df.to_sql(name="megasena", con=engine, if_exists="append", index=False)
-    print(f"Foram {row_inserted} jogos inseridos com sucesso.")
-
-
-def columns(table: pd.DataFrame) -> pd.DataFrame:
-    table["id_sorteio"] = table["id_sorteio"].astype(str).str.zfill(4)
-    table["dt_sorteio"] = pd.to_datetime(table["dt_sorteio"]).dt.strftime("%x (%a)")
-    table["acerto_6"] = np.where(table["acerto_6"].ne(0), table["acerto_6"].astype(str), "Ninguém")
-    table["acerto_5"] = np.where(table["acerto_5"].ne(0), table["acerto_5"].astype(str), "Ninguém")
-    table["acerto_4"] = np.where(table["acerto_4"].ne(0), table["acerto_4"].astype(str), "Ninguém")
-    table.columns = ["Concurso", "Data", "Bolas", "Acerto para 6", "Rateio para 6", "Acerto para 5",
-                     "Rateio para 5", "Acerto para 4", "Rateio para 4"]
-    return table
-
-
-def view() -> None:
-    print(columns(pd.read_sql(sql=sa.text("SELECT * FROM megasena"), con=engine)).tail(25))
-
-
-def mega_da_virada() -> None:
-    stmt: str = """
-        SELECT * FROM megasena WHERE dt_sorteio IN (
-            SELECT MAX(dt_sorteio) FROM megasena GROUP BY YEAR(dt_sorteio) HAVING YEAR(dt_sorteio) <> YEAR(CURRENT_DATE)
-        )
-    """
-    print(columns(pd.read_sql(sql=sa.text(stmt), con=engine)))
-
-
-def acertei_minhas_apostas() -> None:
-    for r in range(6, 3, -1):
-        mega: dict[str: list] = {"Concurso": [], "Data": [], "Bolas": [], "Aposta n.°": []}
-
-        stmt: str = f"SELECT id_sorteio, dt_sorteio, bolas, acerto_{r}, rateio_{r} FROM megasena"
-
-        for row in pd.read_sql(sql=sa.text(stmt), con=engine).itertuples(index=False, name=None):
-            for aposta in minhas_apostas:
-                bolas: list[str] = aposta.split()
-                match: list[str] = []
-
-                for x in range(6):
-                    if bolas[x] in row[2]:
-                        match.append(bolas[x])
-
-                if len(match) == r:
-                    mega["Concurso"].append(str(row[0]).zfill(4))
-                    mega["Data"].append(pd.to_datetime(row[1]).strftime("%x (%a)"))
-                    mega["Bolas"].append(" ".join(match))
-                    mega["Aposta n.°"].append(minhas_apostas.index(aposta) + 1)
-
-        print(f"\nLista de {r} acertos:")
-        print(pd.DataFrame(mega)) if len(pd.DataFrame(mega)) != 0 else print("Suas apostas não tiveram acertos...")
-
-
-def acertou_sua_aposta() -> None:
-    sua_aposta: str = input("Sua aposta: ")
-
-    mega: dict[str: list] = {"Concurso": [], "Data": [], "Bolas": [], "Acertos": []}
-
-    for row in pd.read_sql(sql=sa.text("SELECT * FROM megasena"), con=engine).itertuples(index=False, name=None):
-        match: list[str] = []
-
-        for aposta in sua_aposta.split():
-            if aposta in row[2]:
-                match.append(aposta)
-
-        if len(match) >= 4:
-            mega["Concurso"].append(str(row[0]).zfill(4))
-            mega["Data"].append(pd.to_datetime(row[1]).strftime("%x (%a)"))
-            mega["Bolas"].append(row[2])
-            mega["Acertos"].append(len(match))
-
-    print(pd.DataFrame(mega)) if len(pd.DataFrame(mega)) != 0 else print("Sua aposta não teve acertos...\n")
-
-
-def quantas_bolas_acertas() -> None:
-    apostas: dict[int: int] = {}
-
-    for x in minhas_apostas:
-        y: list[str] = x.split()
-        for z in range(len(y)):
-            try:
-                apostas[int(y[z])] += 1
-            except KeyError:
-                apostas[int(y[z])] = 1
-
-    apostas_ordenadas: dict[int: int] = {k: v for k, v in sorted(apostas.items(), key=lambda s: s[0])}
-
-    acertos: pd.DataFrame = pd.DataFrame(data=apostas_ordenadas, index=["acertos"])
-    acertos.index.name = "bolas"
-    print(acertos)
-
+with engine.begin() as cnx:
+    try:
+        cnx.execute(sa.text("DROP TABLE IF EXISTS megasena"))
+        cnx.execute(sa.text(stmt))
+    except sa.exc.OperationalError:
+        print("Deu erro ao criar a tabela...")
+    else:
+        print("Tabela deletada e recriada com sucesso.")
 
 #%%
-if __name__ == "__main__":
-    while True:
-        os.system("cls" if os.name == "nt" else "clear")
+df: pd.DataFrame = pd.read_excel("~/Downloads/Mega-Sena.xlsx")
+df["Data do Sorteio"] = pd.to_datetime(df["Data do Sorteio"], format="%d/%m/%Y")
+for col in df.columns[2:8]:
+    df[col] = df[col].astype(str).str.zfill(2)
+df["bolas"] = df[df.columns[2:8]].apply(" ".join, axis=1)
+for col in ["Rateio 6 acertos", "Rateio 5 acertos", "Rateio 4 acertos"]:
+    df[col] = df[col].astype(str).str.replace(r"\D", "", regex=True).astype(float) / 100
+df = df[["Concurso", "Data do Sorteio", "bolas", "Ganhadores 6 acertos", "Rateio 6 acertos",
+         "Ganhadores 5 acertos", "Rateio 5 acertos", "Ganhadores 4 acertos", "Rateio 4 acertos"]]
+df.columns = ["id_sorteio", "dt_sorteio", "bolas", "acerto_6",
+              "rateio_6", "acerto_5", "rateio_5", "acerto_4", "rateio_4"]
+df.set_index("id_sorteio", inplace=True)
+df.loc[2701] = ["2024-03-16", "06 15 18 31 32 47", 0, 0.0, 72, 59349.01, 5712, 1068.7]
+df = df.reset_index().sort_values(by=["id_sorteio", "dt_sorteio"], ignore_index=True)
+row_inserted: int = df.to_sql(name="megasena", con=engine, if_exists="append", index=False)
+print(f"Foram {row_inserted} jogos inseridos com sucesso.")
 
-        print("-" * 80)
-        print(" 1 - Criar Nova Tabela...")
-        print(" 2 - Incluir Novos Jogos...")
-        print(" 3 - Exibir 25 Últimos Jogos...")
-        print(" 4 - Exibir Os Jogos da Mega Da Virada...")
-        print(" 5 - Ver Se Acertei Minhas Apostas...")
-        print(" 6 - Ver Se Acertou Sua Aposta...")
-        print(" 7 - Ver Quantas Bolas Acertas...")
-        print("-" * 80)
+#%%
+print(pd.read_sql(sql=sa.text("SELECT * FROM megasena"), con=engine).tail(25))
 
-        option: str = input("Escolha a opção acima (ou tecla ENTER para sair) → ")
+#%%
+stmt: str = """
+    SELECT * FROM megasena WHERE dt_sorteio IN (
+        SELECT MAX(dt_sorteio) FROM megasena GROUP BY YEAR(dt_sorteio) HAVING YEAR(dt_sorteio) <> YEAR(CURRENT_DATE)
+    )
+"""
+print(pd.read_sql(sql=sa.text(stmt), con=engine))
 
-        match option:
-            case "1":
-                create()
-            case "2":
-                add()
-            case "3":
-                view()
-            case "4":
-                mega_da_virada()
-            case "5":
-                acertei_minhas_apostas()
-            case "6":
-                acertou_sua_aposta()
-            case "7":
-                quantas_bolas_acertas()
-            case _:
-                break
+#%%
+for r in range(6, 3, -1):
+    mega: dict[str: list] = {"Concurso": [], "Data": [], "Bolas": [], "Aposta n.°": []}
+
+    stmt: str = f"SELECT id_sorteio, dt_sorteio, bolas, acerto_{r}, rateio_{r} FROM megasena"
+
+    for row in pd.read_sql(sql=sa.text(stmt), con=engine).itertuples(index=False, name=None):
+        for aposta in minhas_apostas:
+            bolas: list[str] = aposta.split()
+            match: list[str] = []
+
+            for x in range(6):
+                if bolas[x] in row[2]:
+                    match.append(bolas[x])
+
+            if len(match) == r:
+                mega["Concurso"].append(str(row[0]).zfill(4))
+                mega["Data"].append(pd.to_datetime(row[1]).strftime("%x (%a)"))
+                mega["Bolas"].append(" ".join(match))
+                mega["Aposta n.°"].append(minhas_apostas.index(aposta) + 1)
+
+    print(f"\nLista de {r} acertos:")
+    print(pd.DataFrame(mega)) if len(pd.DataFrame(mega)) != 0 else print("Suas apostas não tiveram acertos...")
+
+#%%
+sua_aposta: str = input("Sua aposta: ")
+
+mega: dict[str: list] = {"Concurso": [], "Data": [], "Bolas": [], "Acertos": []}
+
+for row in pd.read_sql(sql=sa.text("SELECT * FROM megasena"), con=engine).itertuples(index=False, name=None):
+    match: list[str] = []
+
+    for aposta in sua_aposta.split():
+        if aposta in row[2]:
+            match.append(aposta)
+
+    if len(match) >= 4:
+        mega["Concurso"].append(str(row[0]).zfill(4))
+        mega["Data"].append(pd.to_datetime(row[1]).strftime("%x (%a)"))
+        mega["Bolas"].append(row[2])
+        mega["Acertos"].append(len(match))
+
+print(pd.DataFrame(mega)) if len(pd.DataFrame(mega)) != 0 else print("Sua aposta não teve acertos...\n")
+
+#%%
+apostas: dict[int: int] = {}
+
+for x in minhas_apostas:
+    y: list[str] = x.split()
+    for z in range(len(y)):
+        try:
+            apostas[int(y[z])] += 1
+        except KeyError:
+            apostas[int(y[z])] = 1
+
+apostas_ordenadas: dict[int: int] = {k: v for k, v in sorted(apostas.items(), key=lambda s: s[0])}
+
+acertos: pd.DataFrame = pd.DataFrame(data=apostas_ordenadas, index=["acertos"])
+acertos.index.name = "bolas"
+print(acertos)
