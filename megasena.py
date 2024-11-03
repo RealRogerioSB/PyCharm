@@ -84,14 +84,6 @@ with engine.begin() as cnx:
 print(pd.read_sql(sql=sa.text("SELECT * FROM megasena"), con=engine).tail(25))
 
 #%%
-stmt: str = """
-    SELECT * FROM megasena WHERE dt_sorteio IN (
-        SELECT MAX(dt_sorteio) FROM megasena GROUP BY YEAR(dt_sorteio) HAVING YEAR(dt_sorteio) <> YEAR(CURRENT_DATE)
-    )
-"""
-print(pd.read_sql(sql=sa.text(stmt), con=engine))
-
-#%%
 for r in range(6, 3, -1):
     mega: dict[str: list] = {"Concurso": [], "Data": [], "Bolas": [], "Aposta n.°": []}
 
@@ -151,3 +143,11 @@ apostas_ordenadas: dict[int: int] = {k: v for k, v in sorted(apostas.items(), ke
 acertos: pd.DataFrame = pd.DataFrame(data=apostas_ordenadas, index=["acertos"])
 acertos.index.name = "bolas"
 print(acertos)
+
+#%%
+stmt: str = """
+    SELECT * FROM megasena WHERE dt_sorteio IN (
+        SELECT MAX(dt_sorteio) FROM megasena GROUP BY YEAR(dt_sorteio) HAVING YEAR(dt_sorteio) <> YEAR(CURRENT_DATE)
+    )
+"""
+print(pd.read_sql(sql=sa.text(stmt), con=engine))
