@@ -8,14 +8,15 @@ import sqlalchemy as sa
 load_dotenv()
 
 engine: sa.Engine = sa.engine.create_engine(os.getenv("URL_MYSQL"))
+# engine: sa.Engine = sa.engine.create_engine(os.getenv("URL_SQLITE"))
 
 #%%
 stmt: str = """
     CREATE TABLE IF NOT EXISTS unibb (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        id_curso INT NOT NULL,
-        nm_curso VARCHAR(100) NOT NULL,
-        hr_curso TINYINT UNSIGNED NOT NULL
+        id INTEGER AUTO_INCREMENT PRIMARY KEY,
+        id_curso INTEGER NOT NULL,
+        nm_curso TEXT NOT NULL,
+        hr_curso INTEGER NOT NULL
     )
 """
 with engine.begin() as cnx:
@@ -40,11 +41,11 @@ else:
 
 #%% lista de cursos com id ordenado
 stmt: str = "SELECT id_curso AS Código, nm_curso AS Curso, hr_curso AS Horas FROM unibb ORDER BY id"
-print(pd.read_sql(sql=sa.text(stmt), con=engine))
+print(pd.read_sql_query(sql=sa.text(stmt), con=engine))
 
 #%% lista de cursos com id_curso ordenado
 stmt: str = "SELECT id_curso AS Código, nm_curso AS Curso, hr_curso AS Horas FROM unibb ORDER BY id_curso"
-print(pd.read_sql(sql=sa.text(stmt), con=engine))
+print(pd.read_sql_query(sql=sa.text(stmt), con=engine))
 
 #%% lista de cursos duplicados
 stmt: str = """
@@ -52,4 +53,4 @@ stmt: str = """
         SELECT nm_curso FROM unibb GROUP BY nm_curso HAVING COUNT(nm_curso) > 1
     ) ORDER BY nm_curso, id_curso
 """
-print(pd.read_sql(sql=sa.text(stmt), con=engine))
+print(pd.read_sql_query(sql=sa.text(stmt), con=engine))

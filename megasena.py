@@ -15,6 +15,7 @@ pd.set_option("display.max_columns", None)
 load_dotenv()
 
 engine: sa.Engine = sa.create_engine(os.getenv("URL_MYSQL"))
+# engine: sa.Engine = sa.create_engine(os.getenv("URL_SQLITE"))
 
 minhas_apostas: tuple = (
     "05 15 26 27 46 53",  # aposta n.° 1
@@ -40,15 +41,15 @@ minhas_apostas: tuple = (
 #%%
 stmt: str = """
     CREATE TABLE IF NOT EXISTS megasena (
-        id_sorteio SMALLINT UNSIGNED NOT NULL,
-        dt_sorteio DATE NOT NULL,
-        bolas VARCHAR(17) NOT NULL,
-        acerto_6 MEDIUMINT UNSIGNED NOT NULL,
-        rateio_6 DOUBLE NOT NULL,
-        acerto_5 MEDIUMINT UNSIGNED NOT NULL,
-        rateio_5 DOUBLE NOT NULL,
-        acerto_4 MEDIUMINT UNSIGNED NOT NULL,
-        rateio_4 DOUBLE NOT NULL,
+        id_sorteio INTEGER NOT NULL,
+        dt_sorteio TEXT NOT NULL,
+        bolas TEXT NOT NULL,
+        acerto_6 INTEGER NOT NULL,
+        rateio_6 REAL NOT NULL,
+        acerto_5 INTEGER NOT NULL,
+        rateio_5 REAL NOT NULL,
+        acerto_4 INTEGER NOT NULL,
+        rateio_4 REAL NOT NULL,
         PRIMARY KEY (id_sorteio, dt_sorteio)
     )
 """
@@ -83,7 +84,7 @@ with engine.begin() as cnx:
             print(f"Foram {row_inserted} jogos inseridos com sucesso.")
 
 #%%
-print(pd.read_sql(sql=sa.text("SELECT * FROM megasena"), con=engine).tail(25))
+print(pd.read_sql_query(sql=sa.text("SELECT * FROM megasena"), con=engine).tail(25))
 
 #%%
 for r in range(6, 3, -1):
