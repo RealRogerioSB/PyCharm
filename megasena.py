@@ -1,4 +1,4 @@
-#%%
+# %%
 import locale
 import os
 
@@ -38,7 +38,7 @@ minhas_apostas: tuple = (
     "01 16 21 34 49 54",  # aposta n.° 18
 )
 
-#%%
+# %%
 stmt: str = """
     CREATE TABLE IF NOT EXISTS megasena (
         id_sorteio INTEGER NOT NULL,
@@ -83,10 +83,10 @@ with engine.begin() as cnx:
             row_inserted: int = df.to_sql(name="megasena", con=engine, if_exists="append", index=False)
             print(f"Foram {row_inserted} jogos inseridos com sucesso.")
 
-#%%
+# %%
 print(pd.read_sql_query(sql=sa.text("SELECT * FROM megasena"), con=engine).tail(25))
 
-#%%
+# %%
 for r in range(6, 3, -1):
     mega: dict[str: list] = {"Concurso": [], "Data": [], "Bolas": [], "Aposta n.°": []}
 
@@ -110,7 +110,7 @@ for r in range(6, 3, -1):
     print(f"\nLista de {r} acertos:")
     print(pd.DataFrame(mega)) if len(pd.DataFrame(mega)) != 0 else print("Suas apostas não tiveram acertos...")
 
-#%%
+# %%
 sua_aposta: str = input("Sua aposta: ")
 
 mega: dict[str: list] = {"Concurso": [], "Data": [], "Bolas": [], "Acertos": []}
@@ -130,7 +130,7 @@ for row in pd.read_sql_query(sql=sa.text("SELECT * FROM megasena"), con=engine).
 
 print(pd.DataFrame(mega)) if len(pd.DataFrame(mega)) != 0 else print("Sua aposta não teve acertos...\n")
 
-#%%
+# %%
 apostas: dict[int: int] = {}
 
 for x in minhas_apostas:
@@ -147,7 +147,7 @@ acertos: pd.DataFrame = pd.DataFrame(data=apostas_ordenadas, index=["acertos"])
 acertos.index.name = "bolas"
 print(acertos)
 
-#%%
+# %%
 stmt: str = """
     SELECT * FROM megasena WHERE dt_sorteio IN (
         SELECT MAX(dt_sorteio) FROM megasena GROUP BY YEAR(dt_sorteio) HAVING YEAR(dt_sorteio) <> YEAR(CURRENT_DATE)

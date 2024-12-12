@@ -501,7 +501,11 @@ def tk4():
 if __name__ == '__main__':
     option = input("1, 2, 3 ou 4? ")
     match option:
-        case "1": tk1()
-        case "2": tk2()
-        case "3": tk3()
-        case "4": tk4()
+        case "1":
+            tk1()
+        case "2":
+            tk2()
+        case "3":
+            tk3()
+        case "4":
+            tk4()

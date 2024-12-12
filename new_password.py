@@ -1,7 +1,5 @@
 import random
-from string import digits
-from string import punctuation
-from string import ascii_letters
+from string import ascii_letters, digits, punctuation
 
 symbols = ascii_letters + digits + punctuation
 secure_random = random.SystemRandom()

@@ -1,6 +1,7 @@
 while not ((x := input("Digite o número entre 0 e 100 a converter por extenso: ")).isdigit() and 0 <= int(x) <= 100):
     continue
 
+
 def num_extenso(n):
     unidade = ["zero", "um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove"]
     dez_x = ["dez", "onze", "doze", "treze", "quatorze", "quinze", "dezesseis", "dezessete", "dezoito", "dezenove"]

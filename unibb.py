@@ -1,4 +1,4 @@
-#%%
+# %%
 import os
 
 from dotenv import load_dotenv
@@ -10,7 +10,7 @@ load_dotenv()
 engine: sa.Engine = sa.engine.create_engine(os.getenv("URL_MYSQL"))
 # engine: sa.Engine = sa.engine.create_engine(os.getenv("URL_SQLITE"))
 
-#%%
+# %%
 stmt: str = """
     CREATE TABLE IF NOT EXISTS unibb (
         id INTEGER AUTO_INCREMENT PRIMARY KEY,
@@ -23,7 +23,7 @@ with engine.begin() as cnx:
     cnx.execute(sa.text(stmt))
 print("Tabela criada com sucesso.\n")
 
-#%%
+# %%
 try:
     df_new: pd.DataFrame = pd.read_csv("./src/unibb.csv", sep=",", encoding="utf-8-sig")
     df_new = df_new[df_new["save"].eq(1)]
@@ -39,15 +39,15 @@ else:
     df_deleted[df_deleted["save"].ne(1)].to_csv("./src/unibb.csv", index=False, sep=",", encoding="utf-8-sig")
     print("Cursos atualizados com sucesso.\n")
 
-#%% lista de cursos com id ordenado
+# %% lista de cursos com id ordenado
 stmt: str = "SELECT id_curso AS Código, nm_curso AS Curso, hr_curso AS Horas FROM unibb ORDER BY id"
 print(pd.read_sql_query(sql=sa.text(stmt), con=engine))
 
-#%% lista de cursos com id_curso ordenado
+# %% lista de cursos com id_curso ordenado
 stmt: str = "SELECT id_curso AS Código, nm_curso AS Curso, hr_curso AS Horas FROM unibb ORDER BY id_curso"
 print(pd.read_sql_query(sql=sa.text(stmt), con=engine))
 
-#%% lista de cursos duplicados
+# %% lista de cursos duplicados
 stmt: str = """
     SELECT id_curso AS Código, nm_curso AS Curso, hr_curso AS Horas FROM unibb WHERE nm_curso IN (
         SELECT nm_curso FROM unibb GROUP BY nm_curso HAVING COUNT(nm_curso) > 1

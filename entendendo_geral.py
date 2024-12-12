@@ -1,4 +1,4 @@
-#%%
+# %%
 # sem asyncio
 import time
 from timeit import timeit
@@ -35,7 +35,7 @@ def main():
 if __name__ == "__main__":
     main()
 
-#%%
+# %%
 # com asyncio
 import asyncio
 
@@ -71,7 +71,7 @@ async def main():
 if __name__ == "__main__":
     asyncio.run(main())
 
-#%%
+# %%
 # Assistente Pessoal
 # from gtts import gTTS
 # import speech_recognition as sr
@@ -206,7 +206,7 @@ if __name__ == "__main__":
 # if __name__ == "__main__":
 #     main()
 
-#%%
+# %%
 ### Pirâmide com base de estrelas
 num = int(input("Entra o número de linhas: "))
 
@@ -224,7 +224,7 @@ while num > row:
     row += 1
     print()
 
-#%%
+# %%
 ### Pirâmide com base de números
 num = int(input("Entra o número de linhas: "))
 
@@ -237,7 +237,7 @@ for i in range(1, num + 1):
         print(j, end="")
     print()
 
-#%%
+# %%
 # Downloader YouTube
 # from pytube import YouTube
 
@@ -246,7 +246,7 @@ for i in range(1, num + 1):
 # stream = video.streams.get_highest_resolution()
 # stream.download("./img/")
 
-#%%
+# %%
 # Imagem Pillow (converter colorido em preto e branco)
 from PIL import Image
 
@@ -255,7 +255,7 @@ black_white = img.convert("L")
 black_white.save("./img/new_grafico.png")
 black_white.show()
 
-#%%
+# %%
 # Tradutor de Texto
 # !pip install translate
 # from translate import Translator
@@ -267,7 +267,7 @@ black_white.show()
 # res = s.translate("Hello, Guys!")
 # print(res)
 
-#%%
+# %%
 # QRCode
 # pip install qrcode
 # import qrcode
@@ -291,7 +291,7 @@ black_white.show()
 # salva a imagem em um arquivo PNG
 # img.save("./img/qr_code.png")
 
-#%%
+# %%
 # SpeedTest
 # import speedtest
 
@@ -303,7 +303,7 @@ black_white.show()
 # print(f"Upload: {up_ / 10**6:,.2f}MB.")
 # print(f"Ping: {ping_:,.2f}ms.")
 
-#%%
+# %%
 # PDF merger
 import PyPDF2
 import os
@@ -318,7 +318,8 @@ for arquivo in arquivos:
 
 merger.write("./doc/hashProgramação.pdf")
 
-#%%
+
+# %%
 # Captura de Tela
 # import pyautogui
 
@@ -330,7 +331,7 @@ merger.write("./doc/hashProgramação.pdf")
 # screenshot = pyautogui.screenshot(region=(0, 0, 500, 300))
 # screenshot.save("./img/screenshot_2.png")
 
-#%%
+# %%
 # Conversão de áudio em texto
 # pip install SpeechRecognition
 # import speech_recognition as sr
@@ -350,7 +351,7 @@ merger.write("./doc/hashProgramação.pdf")
 # except sr.RequestError as e:
 #     print(f"Erro de requisição: {e}")
 
-#%%
+# %%
 # Tocador de Música
 # import pygame
 
@@ -370,7 +371,7 @@ merger.write("./doc/hashProgramação.pdf")
 # # encerra a música
 # pygame.quit()
 
-#%%
+# %%
 # Atualizações sobre o Clima
 # pip install pyowm
 # import pyowm
@@ -388,7 +389,7 @@ merger.write("./doc/hashProgramação.pdf")
 # temperature = weather.get_temperature("celsius")["temp"]
 # print(f"A temperatura atual em {city} é de {temperature:.1f} ºC.")
 
-#%%
+# %%
 # Encurtador URL
 # pip install pyshorteners
 # import pyshorteners
@@ -403,7 +404,7 @@ merger.write("./doc/hashProgramação.pdf")
 
 # print(short_url)
 
-#%%
+# %%
 # URLOPEN
 # Versão que usa tentativa/exceção para imprimir
 # uma mensagem de erro se o urlopen falhar.
@@ -420,7 +421,7 @@ def wget2(url_):
 
 wget2("https://www.youtube.com/watch?v=eguv8wv3jN0")
 
-#%%
+# %%
 a = 0b1010  # Binary Literals
 b = 100  # Decimal Literal
 c = 0o310  # Octal Literal
@@ -437,7 +438,7 @@ print(a, b, c, d)
 print(float_1, float_2)
 print(x, x.imag, x.real)
 
-#%%
+# %%
 strings = "Este é Python"
 char = "C"
 multiline_str = """Isto é um string
@@ -466,7 +467,7 @@ print(heart)
 print(covid)
 print(hiragana)
 
-#%%
+# %%
 # comparando desempenho com listas (array e list)
 import numpy as np
 
@@ -478,7 +479,7 @@ py_list = list(range(int(1e6)))
 
 for _ in range(100): py_list = [x * 2 for x in py_list]
 
-#%%
+# %%
 # só serve para Notebook Jupyter
 from time import sleep
 
@@ -490,7 +491,7 @@ for i in range(10, -1, -1):
 else:
     print("Contagem Regressiva Terminada.")
 
-#%%
+# %%
 drink = "Disponível"
 food = None
 
@@ -505,7 +506,8 @@ def menu(x_):
 menu(drink)
 menu(food)
 
-#%%
+
+# %%
 def outer_function():
     a = 20
 
@@ -521,7 +523,8 @@ a = 10
 outer_function()
 print("a =", a)
 
-#%%
+
+# %%
 def outer_function():
     global a
     a = 20
@@ -539,7 +542,8 @@ a = 10
 outer_function()
 print("a =", a)
 
-#%%
+
+# %%
 def outer():
     x = "local"
 
@@ -554,7 +558,7 @@ def outer():
 
 outer()
 
-#%%
+# %%
 c = 0
 
 
@@ -567,7 +571,7 @@ def add():
 add()
 print("Em principal:", c)
 
-#%%
+# %%
 print("Dê-me 2 números, e os dividirei.")
 print("Toque a tecla 'q' para sair.")
 
@@ -587,7 +591,7 @@ while True:
     else:
         print("A divisão dos 2 números é", answer)
 
-#%%
+# %%
 quit_flag = 0
 
 match quit_flag:
@@ -598,14 +602,15 @@ match quit_flag:
     case _:
         print("Valor booleano não foi passado.")
 
-#%%
+# %%
 # Permutações com ‘string’
 import itertools
 
 for p in itertools.permutations("ABCD"):
     print(p)
 
-#%%
+
+# %%
 def media(listagem):
     assert len(listagem) != 0, "A lista está vazia..."
     return sum(listagem) / len(listagem)
@@ -621,10 +626,10 @@ try:
 except AssertionError as err:
     print(err)
 
-#%%
+# %%
 help(len)
 
-#%%
+# %%
 texto: str = input("Escreva algo: ")
 print()
 print(texto or "Vazio...")
@@ -647,14 +652,14 @@ a, b, c, d, e, f, g = "", None, False, [], {}, 22, "Giovana"
 var = a or b or c or d or e or f or g
 print(var)
 
-#%%
+# %%
 # determina saber qual encode configura o arquivo binário
 # import chardet
 
 # with open("./src/aluguel.csv", "rb") as filename:
 #     print(chardet.detect(filename.read()))
 
-#%%
+# %%
 import numpy as np
 
 
@@ -665,7 +670,8 @@ def acumulador():
 
 print(list(acumulador()))
 
-#%%
+
+# %%
 def timer(fun):
     def decor(*args, **kwargs):
         start = time.perf_counter()
@@ -686,13 +692,13 @@ def fun1():
 
 fun1()
 
-#%%
+# %%
 # import wget
 
 # link = ""
 # wget.download(link, "busca_pdf.pdf")
 
-#%%
+# %%
 # import cv2
 # import numpy as np
 # import pyautogui
