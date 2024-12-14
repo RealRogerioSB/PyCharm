@@ -14,8 +14,8 @@ pd.set_option("display.max_columns", None)
 
 load_dotenv()
 
-engine: sa.Engine = sa.create_engine(os.getenv("URL_MYSQL"))
-# engine: sa.Engine = sa.create_engine(os.getenv("URL_SQLITE"))
+engine: sa.Engine = sa.create_engine(os.getenv("URL_MYSQL"))  # MySQL
+# engine: sa.Engine = sa.create_engine(os.getenv("URL_SQLITE"))  # SQLite
 
 minhas_apostas: tuple = (
     "05 15 26 27 46 53",  # aposta n.° 1
@@ -150,7 +150,10 @@ print(acertos)
 # %%
 stmt: str = """
     SELECT * FROM megasena WHERE dt_sorteio IN (
-        SELECT MAX(dt_sorteio) FROM megasena GROUP BY YEAR(dt_sorteio) HAVING YEAR(dt_sorteio) <> YEAR(CURRENT_DATE)
+        SELECT MAX(dt_sorteio) FROM megasena GROUP BY YEAR(dt_sorteio)
+            HAVING YEAR(dt_sorteio) <> YEAR(CURRENT_DATE)
+        -- SELECT MAX(dt_sorteio) FROM megasena GROUP BY STRFTIME('%Y', dt_sorteio)
+        --     HAVING STRFTIME('%Y', dt_sorteio) <> STRFTIME('%Y', DATE('NOW'))
     )
 """
 
