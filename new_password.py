@@ -7,3 +7,4 @@ secure_random = random.SystemRandom()
 password = int(input("Escolha o tamanho da senha: "))
 
 print("".join(secure_random.choice(symbols) for _ in range(password)))
+# print("".join(secure_random.sample(symbols, password)))

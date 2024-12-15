@@ -1,3 +1,4 @@
+# %%
 import random
 
 print("*************************************")
@@ -43,3 +44,30 @@ for rodada in range(1, total_de_tentativas + 1):
                 print(f"\nO número secreto era {secreto} e você fez {pontos} pontos.")
 
 print("Fim do jogo!")
+
+# %%
+import numpy as np
+
+tentativas = 10
+
+print(f"Adivinhe o número entre 1 e 50. Você tem até {tentativas} tentativas de acertar.")
+
+numero_secreto = np.random.randint(1, 50)
+
+while tentativas > 0:
+    tentativas -= 1
+    chute = int(input(">>> Adivinha um número secreto: "))
+    if chute > numero_secreto:
+        print("O número secreto é menor!")
+    elif chute < numero_secreto:
+        print("O número secreto é maior!")
+    else:
+        print("Parabéns! Acertou o número secreto!")
+
+    if tentativas >= 0:
+        print(f"Tentativas restantes: {tentativas}.")
+
+if tentativas == 0:
+    print("=" * 38)
+    print("Infelizmente suas tentativas acabaram...")
+    print(f"O número secreto é {secreto}.")
