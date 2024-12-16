@@ -1,4 +1,5 @@
 .idea
 .venv
 .env
-main.py
+temp.ipynb
+temp.py
