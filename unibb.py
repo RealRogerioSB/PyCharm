@@ -25,9 +25,8 @@ print("Tabela criada com sucesso.\n")
 
 # %%
 try:
-    df_new: pd.DataFrame = pd.read_csv("./src/unibb.csv", sep=",", encoding="utf-8-sig")
-    df_new = df_new[df_new["save"].eq(1)]
-    df_new = df_new[["id_curso", "nm_curso", "hr_curso"]]
+    df_new: pd.DataFrame = pd.read_csv("./src/unibb.csv", encoding="utf-8-sig")
+    df_new = df_new[df_new["save"].eq(1)][["id_curso", "nm_curso", "hr_curso"]]
     rows_inserted: int = df_new.to_sql(name="unibb", con=engine, if_exists="append", index=False)
     print(f"Foram {rows_inserted} cursos inseridos com sucesso.")
 except FileNotFoundError:
@@ -35,8 +34,8 @@ except FileNotFoundError:
 except UnicodeEncodeError:
     print("Erro ao decodificar o arquivo .CSV...")
 else:
-    df_deleted: pd.DataFrame = pd.read_csv("./src/unibb.csv", sep=",", encoding="utf-8-sig")
-    df_deleted[df_deleted["save"].ne(1)].to_csv("./src/unibb.csv", index=False, sep=",", encoding="utf-8-sig")
+    df_deleted: pd.DataFrame = pd.read_csv("./src/unibb.csv", encoding="utf-8-sig")
+    df_deleted[df_deleted["save"].ne(1)].to_csv("./src/unibb.csv", index=False, encoding="utf-8-sig")
     print("Cursos atualizados com sucesso.\n")
 
 # %% lista de cursos com id ordenado

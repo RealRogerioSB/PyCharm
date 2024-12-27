@@ -1,4 +1,4 @@
-﻿id_curso,nm_curso,hr_curso,save
+id_curso,nm_curso,hr_curso,save
 11119,Playbook de Vendas: Capitalização,1,0
 11120,Playbook de Vendas: Consórcio,1,0
 11121,Playbook de Vendas: Previdência,1,0
@@ -23,13 +23,9 @@
 202859,UX Design: entenda a área da User Experience,8,0
 203078,UX Writing: projetando um chatbot,8,0
 203167,Inteligência Artificial e UX: otimize a construção de um produto digital,8,0
-7437,Jeito BB de Atender Empresas - Mudança,1,0
 10652,Cadastro Pessoa Jurídica,2,0
 4105,Sapiência - Motivação,1,0
 3790,Sapiência - Matemática Financeira,3,0
-203772,Copilot Pro: aprendendo a utilizar as funcionalidades,8,0
-203464,IA aplicada a Data Science: utilizando IA na construção de visualização de dados,10,0
-204079,Inteligência Artificial no RH: impactando o dia a dia da área que cuida de pessoas,8,0
 4105,Sapiência - Motivação,1,0
 3790,Sapiência - Matemática Financeira,3,0
 3784,Sapiência - Liderança,2,0
@@ -55,3 +51,18 @@
 6633,Sinapse Adimplência e PCLD - Aprimorando a Gestão,4,0
 6184,Sinapse Gestão de Resultados,4,0
 203704,UX Design: construindo dashboard com Power BI,10,0
+202832,Agile Coaching: difunda o Ágil nas organizações,8,0
+201821,BDD e Java: Behavior Driven Development com Cucumber,10,0
+202718,Criação de conteúdo em vídeo: estratégias e otimizações,6,0
+201649,Entrega Contínua: confiabilidade e qualidade na implantação de software,8,0
+202559,Integração Contínua: testes automatizados e pipeline no Github Actions,6,0
+201110,Jenkins e Docker: Pipeline de entrega continua,12,0
+201883,Mentalidade de crescimento: potencializando sua carreira,6,0
+202545,Microsserviços na prática: implementando com Java e Spring,10,0
+202142,Microsserviços: padrões de projeto,6,0
+202301,Observabilidade: coletando métricas de uma aplicação com Prometheus,10,0
+202379,Quality Assurance: plano de testes e gestão de bugs,8,0
+202019,Selenium: testes automatizados de aceitação em Java,8,0
+202225,Swagger: documentando suas APIs,8,0
+200975,Testes no Android: Mocks e integrações,12,0
+201958,The Twelve-Factor App: Metodologia para construção de aplicações robustas,10,0
