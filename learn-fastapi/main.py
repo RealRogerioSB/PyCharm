@@ -1,17 +1,7 @@
-import uvicorn
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
 from redis_om import get_redis_connection, HashModel
 
 app = FastAPI()
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://127.0.0.1", "http://127.0.0.1:3000"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 redis = get_redis_connection(
     host="redis-11006.c250.eu-central-1-1.ec2.redns.redis-cloud.com",
@@ -34,6 +24,29 @@ class Product(HashModel):
 @app.get("/")
 def root():
     return {"mensagem": "Aprendendo o FastAPI!"}
+
+
+@app.get("/help")
+def help():
+    return {"mensagem": "Aprendendo ainda esse FastAPI..."}
+
+
+from fastapi import FastAPI
+
+app = FastAPI()
+
+
+@app.get("/")
+async def root():
+    return {"mensagem": "Página Raíz"}
+
+
+@app.get("/funci")
+async def funci():
+    return {
+        "cd_usu_fun": "F8719981",
+        "nm_usu_fun_abvd": "Rogério Balloussier",
+    }
 
 
 @app.post("/products")
@@ -59,7 +72,3 @@ def get():
 @app.get("/products/{pk}")
 def get_product(pk: str):
     return Product.get(pk)
-
-
-if __name__ == "__main__":
-    uvicorn.run("learn-fastapi.main:app", reload=True)
