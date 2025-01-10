@@ -7,15 +7,14 @@ import sqlalchemy as sa
 
 load_dotenv()
 
-engine: sa.Engine = sa.engine.create_engine(os.getenv("URL_MYSQL"))
-# engine: sa.Engine = sa.engine.create_engine(os.getenv("URL_SQLITE"))
+engine: sa.Engine = sa.engine.create_engine(os.getenv("URL_AIVEN"))
 
 # %%
 stmt: str = """
     CREATE TABLE IF NOT EXISTS unibb (
         id INTEGER AUTO_INCREMENT PRIMARY KEY,
         id_curso INTEGER NOT NULL,
-        nm_curso TEXT NOT NULL,
+        nm_curso VARCHAR(100) NOT NULL,
         hr_curso INTEGER NOT NULL
     )
 """

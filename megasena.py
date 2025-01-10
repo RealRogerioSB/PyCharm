@@ -14,8 +14,7 @@ pd.set_option("display.max_columns", None)
 
 load_dotenv()
 
-engine: sa.Engine = sa.create_engine(os.getenv("URL_MYSQL"))  # MySQL
-# engine: sa.Engine = sa.create_engine(os.getenv("URL_SQLITE"))  # SQLite
+engine: sa.Engine = sa.create_engine(os.getenv("URL_AIVEN"))
 
 minhas_apostas: tuple = (
     "05 15 26 27 46 53",  # aposta n.° 1
@@ -42,8 +41,8 @@ minhas_apostas: tuple = (
 stmt: str = """
     CREATE TABLE IF NOT EXISTS megasena (
         id_sorteio INTEGER NOT NULL,
-        dt_sorteio TEXT NOT NULL,
-        bolas TEXT NOT NULL,
+        dt_sorteio DATE NOT NULL,
+        bolas CHAR(17) NOT NULL,
         acerto_6 INTEGER NOT NULL,
         rateio_6 REAL NOT NULL,
         acerto_5 INTEGER NOT NULL,
@@ -58,28 +57,42 @@ with engine.begin() as cnx:
     try:
         cnx.execute(sa.text("DROP TABLE IF EXISTS megasena"))
         cnx.execute(sa.text(stmt))
+
     except sa.exc.OperationalError:
         print("Deu erro ao criar a tabela...")
+
     else:
         print("Tabela deletada e recriada com sucesso.")
+
         try:
             df: pd.DataFrame = pd.read_excel("~/Downloads/Mega-Sena.xlsx")
+
         except FileNotFoundError:
             print("Deu erro ao localizar a planilha...")
+
         else:
             df["Data do Sorteio"] = pd.to_datetime(df["Data do Sorteio"], format="%d/%m/%Y")
+
             for col in df.columns[2:8]:
                 df[col] = df[col].astype(str).str.zfill(2)
+
             df["bolas"] = df[df.columns[2:8]].apply(" ".join, axis=1)
+
             for col in ["Rateio 6 acertos", "Rateio 5 acertos", "Rateio 4 acertos"]:
                 df[col] = df[col].astype(str).str.replace(r"\D", "", regex=True).astype(float) / 100
+
             df = df[["Concurso", "Data do Sorteio", "bolas", "Ganhadores 6 acertos", "Rateio 6 acertos",
                      "Ganhadores 5 acertos", "Rateio 5 acertos", "Ganhadores 4 acertos", "Rateio 4 acertos"]]
+
             df.columns = ["id_sorteio", "dt_sorteio", "bolas", "acerto_6",
                           "rateio_6", "acerto_5", "rateio_5", "acerto_4", "rateio_4"]
+
             df.set_index("id_sorteio", inplace=True)
+
             df.loc[2701] = ["2024-03-16", "06 15 18 31 32 47", 0, 0.0, 72, 59349.01, 5712, 1068.7]
+
             df = df.reset_index().sort_values(by=["id_sorteio", "dt_sorteio"], ignore_index=True)
+
             row_inserted: int = df.to_sql(name="megasena", con=engine, if_exists="append", index=False)
             print(f"Foram {row_inserted} jogos inseridos com sucesso.")
 
@@ -95,11 +108,8 @@ for r in range(6, 3, -1):
     for row in pd.read_sql_query(sql=sa.text(stmt), con=engine).itertuples(index=False, name=None):
         for aposta in minhas_apostas:
             bolas: list[str] = aposta.split()
-            match: list[str] = []
 
-            for x in range(6):
-                if bolas[x] in row[2]:
-                    match.append(bolas[x])
+            match: list[str] = [bolas[x] for x in range(6) if bolas[x] in row[2]]
 
             if len(match) == r:
                 mega["Concurso"].append(str(row[0]).zfill(4))
@@ -116,11 +126,7 @@ sua_aposta: str = input("Sua aposta: ")
 mega: dict[str: list] = {"Concurso": [], "Data": [], "Bolas": [], "Acertos": []}
 
 for row in pd.read_sql_query(sql=sa.text("SELECT * FROM megasena"), con=engine).itertuples(index=False, name=None):
-    match: list[str] = []
-
-    for aposta in sua_aposta.split():
-        if aposta in row[2]:
-            match.append(aposta)
+    match: list[str] = [aposta for aposta in sua_aposta.split() if aposta in row[2]]
 
     if len(match) >= 4:
         mega["Concurso"].append(str(row[0]).zfill(4))
@@ -152,14 +158,12 @@ stmt: str = """
     SELECT * FROM megasena WHERE dt_sorteio IN (
         SELECT MAX(dt_sorteio) FROM megasena GROUP BY YEAR(dt_sorteio)
             HAVING YEAR(dt_sorteio) <> YEAR(CURRENT_DATE)
-        -- SELECT MAX(dt_sorteio) FROM megasena GROUP BY STRFTIME('%Y', dt_sorteio)
-        --     HAVING STRFTIME('%Y', dt_sorteio) <> STRFTIME('%Y', DATE('NOW'))
     )
 """
 
-# %%
 print(pd.read_sql_query(sql=sa.text(stmt), con=engine))
 
+# %%
 def verificar_acertos(escolhidas, sorteadas):
     acertos = set(sorteadas).intersection(escolhidas)
 
