@@ -10,7 +10,7 @@ for feriado in feriados_2025:
 
 # %%
 feriados_df = holidays.country_holidays("BR", "DF")
-for feriado in feriados_df["2024-01-01":"2024-12-31"]:
+for feriado in feriados_df["2025-01-01":"2025-12-31"]:
     print(feriado)
 
 # %%

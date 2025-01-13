@@ -24,7 +24,7 @@ hora_entrada: datetime = converter_hora(input("Que horas deu entrada? "))
 saiu_para_almoco: datetime = converter_hora(input("Que horas saiu para almoço? "))
 voltou_do_almoco: datetime = converter_hora(input("Que horas voltou do almoço? "))
 
-print(f"\n{hora_entrada.strftime("%H:%M")} → a hora que bateu ponto de entrada.")
+print(f"\n{hora_entrada.strftime('%H:%M')} → a hora que bateu ponto de entrada.")
 print(f"{(hora_entrada + timedelta(hours=6, minutes=15)).strftime('%H:%M')} → a hora da saída normal (15 minutos).")
 
 if saiu_para_almoco.strftime("%H:%M") != "00:00" and voltou_do_almoco.strftime("%H:%M") != "00:00":
