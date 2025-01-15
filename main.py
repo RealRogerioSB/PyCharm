@@ -1,39 +1,71 @@
-import redis
-from sqlalchemy import create_engine, Column, Integer, String, Sequence, StaticPool
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from typing import Optional
 
-url_redis = ("redis://default:oTAaMxsndx5SUHmKVZbTcT5uuhut3pss@redis-11006.c250.eu-central-1-1.ec2.redns.redis-cloud.co"
-             "m:11006/0")
+import uvicorn
+from fastapi import FastAPI
+from pydantic import BaseModel
 
-engine = create_engine(url_redis, poolclass=StaticPool)
-
-# Base = declarative_base()
+app = FastAPI()
 
 
-# class User(Base):
-#     __tablename__ = 'users'
-#     id = Column(Integer, Sequence('user_id_seq'), primary_key=True)
-#     name = Column(String(50))
-#     age = Column(Integer)
+class Produto(BaseModel):
+    id: str
+    nome: str
+    descricao: Optional[str] = None
+    preco: float
+    disponivel: Optional[bool] = True
 
 
-# engine = create_engine(url_redis)
-# Base.metadata.create_all(engine)
-# Session = sessionmaker(bind=engine)
-# session = Session()
+produtos = [
+    {
+        "id": "1",
+        "nome": "MacBook Pro M3 PRO",
+        "descricao": "Um laptop fodástico",
+        "preco": 13000.0,
+        "disponivel": True
+    },
+    {
+        "id": "2",
+        "nome": "iPad Pro M1",
+        "descricao": "Um tablet versátil",
+        "preco": 8000.0,
+        "disponivel": True
+    },
+    {
+        "id": "3",
+        "nome": "Mouse",
+        "descricao": "Um periférico indispensável",
+        "preco": 29.99,
+        "disponivel": False
+    },
+]
 
-# Adicionando um usuário ao banco de dados SQL
-# new_user = User(name='Jon Doe', age=28)
-# session.add(new_user)
-# session.commit()
 
-# Configuração do Redis
-# r = redis.Redis(host='redis-11006.c250.eu-central-1-1.ec2.redns.redis-cloud.com', port=11006, db=0)
+@app.get("/", tags=["root"])
+async def root() -> dict:
+    """Página Raíz"""
+    return {"message": "Página Principal"}
 
-# Adicionando uma chave-valor ao Redis
-# r.set('user', 'Jon Doe')
 
-# Recuperando o valor do Redis
-# user = r.get('user')
-# print(user.decode('utf-8'))
+@app.get("/produtos", tags=["produtos"])
+async def listar_produtos() -> list:
+    """Listar Produtos"""
+    return produtos
+
+
+@app.get("/produtos/disponiveis", tags=["produtos"])
+async def listar_produtos_disponiveis() -> list:
+    """Listar Produtos Disponíveis"""
+    return [produto for produto in produtos if produto["disponivel"]]
+
+
+@app.get("/produtos/{id}", tags=["produtos"])
+async def obter_produto(_id: str) -> dict:
+    """Obter Produto"""
+    for produto in produtos:
+        if produto["id"] == _id:
+            return produto
+    return {}
+
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", port=8080)
