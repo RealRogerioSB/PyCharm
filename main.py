@@ -6,15 +6,6 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
-
-class Produto(BaseModel):
-    id: str
-    nome: str
-    descricao: Optional[str] = None
-    preco: float
-    disponivel: Optional[bool] = True
-
-
 produtos = [
     {
         "id": "1",
@@ -40,6 +31,14 @@ produtos = [
 ]
 
 
+class Produto(BaseModel):
+    id: str
+    nome: str
+    descricao: Optional[str] = None
+    preco: float
+    disponivel: Optional[bool] = True
+
+
 @app.get("/", tags=["root"])
 async def root() -> dict:
     """Página Raíz"""
@@ -58,12 +57,39 @@ async def listar_produtos_disponiveis() -> list:
     return [produto for produto in produtos if produto["disponivel"]]
 
 
-@app.get("/produtos/{id}", tags=["produtos"])
+@app.get("/produtos/{_id}", tags=["produtos"])
 async def obter_produto(_id: str) -> dict:
     """Obter Produto"""
     for produto in produtos:
         if produto["id"] == _id:
             return produto
+    return {}
+
+
+@app.post("/novo_produto", tags=["produtos"])
+def criar_produto(produto: Produto) -> dict:
+    """Criar Novo Produto"""
+    produtos.append(dict(produto))
+    return {"mensagem": "Produto criado com sucesso!"}
+
+
+@app.put("/produtos/{_id}", tags=["produtos"])
+def atualizar_produto(_id: str, produto: Produto) -> dict:
+    """Atualizar Produto"""
+    for index, prod in enumerate(produtos):
+        if prod["id"] == _id:
+            produtos[index] = produto
+            return {"mensagem": "Produto atualizado com sucesso!"}
+    return {}
+
+
+@app.delete("/produtos/{_id}", tags=["produtos"])
+def excluir_produto(_id: str) -> dict:
+    """Deletar Produto"""
+    for index, prod in enumerate(produtos):
+        if prod["id"] == _id:
+            produtos.pop(index)
+            return {"mensagem": "Produto removido com sucesso!"}
     return {}
 
 
