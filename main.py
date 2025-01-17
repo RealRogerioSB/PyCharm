@@ -2,7 +2,6 @@ from datetime import date
 
 import uvicorn
 from fastapi import FastAPI, status
-from pydantic import BaseModel
 
 app: FastAPI = FastAPI()
 
@@ -14,20 +13,13 @@ fake_db: list[dict[str: bool | date | int | str]] = [
 ]
 
 
-class Post(BaseModel):
-    _id: int
-    title: str
-    date: date = date.today()
-    published: bool = True
-
-
 @app.get("/post", tags=["Post"], status_code=status.HTTP_200_OK)
 async def list_post() -> list:
     return fake_db
 
 
-@app.get("/post/disponiveis", tags=["Post"], status_code=status.HTTP_200_OK)
-async def list_post_disponiveis() -> list:
+@app.get("/post/available", tags=["Post"], status_code=status.HTTP_200_OK)
+async def list_post_available() -> list:
     return [fake for fake in fake_db if fake["_published"]]
 
 
