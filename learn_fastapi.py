@@ -8,21 +8,21 @@ app = FastAPI()
 
 produtos = [
     {
-        "id": "1",
+        "id": 1,
         "nome": "MacBook Pro M3 PRO",
         "descricao": "Um laptop fodástico",
         "preco": 13000.0,
         "disponivel": True
     },
     {
-        "id": "2",
+        "id": 2,
         "nome": "iPad Pro M1",
         "descricao": "Um tablet versátil",
         "preco": 8000.0,
         "disponivel": True
     },
     {
-        "id": "3",
+        "id": 3,
         "nome": "Mouse",
         "descricao": "Um periférico indispensável",
         "preco": 29.99,
@@ -32,7 +32,7 @@ produtos = [
 
 
 class Produto(BaseModel):
-    id: str
+    id: int
     nome: str
     descricao: Optional[str] = None
     preco: float
@@ -58,7 +58,7 @@ async def listar_produtos_disponiveis() -> list:
 
 
 @app.get("/produtos/{_id}", tags=["produtos"])
-async def obter_produto(_id: str) -> dict:
+async def obter_produto(_id: int) -> dict:
     """Obter Produto"""
     for produto in produtos:
         if produto["id"] == _id:
@@ -67,14 +67,14 @@ async def obter_produto(_id: str) -> dict:
 
 
 @app.post("/novo_produto", tags=["produtos"])
-def criar_produto(produto: Produto) -> dict:
+def criar_produto(produto: dict) -> dict:
     """Criar Novo Produto"""
-    produtos.append(dict(produto))
+    produtos.append(produto)
     return {"mensagem": "Produto criado com sucesso!"}
 
 
 @app.put("/produtos/{_id}", tags=["produtos"])
-def atualizar_produto(_id: str, produto: Produto) -> dict:
+def atualizar_produto(_id: int, produto: Produto) -> dict:
     """Atualizar Produto"""
     for index, prod in enumerate(produtos):
         if prod["id"] == _id:
@@ -84,7 +84,7 @@ def atualizar_produto(_id: str, produto: Produto) -> dict:
 
 
 @app.delete("/produtos/{_id}", tags=["produtos"])
-def excluir_produto(_id: str) -> dict:
+def excluir_produto(_id: int) -> dict:
     """Deletar Produto"""
     for index, prod in enumerate(produtos):
         if prod["id"] == _id:
@@ -94,4 +94,4 @@ def excluir_produto(_id: str) -> dict:
 
 
 if __name__ == "__main__":
-    uvicorn.run(app="learn_fastapi:app", port=8080)
+    uvicorn.run(app="learn_fastapi:app", port=5000)
