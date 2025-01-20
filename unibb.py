@@ -7,12 +7,12 @@ import sqlalchemy as sa
 
 load_dotenv()
 
-engine: sa.Engine = sa.engine.create_engine(os.getenv("URL_AIVEN"))
+engine: sa.Engine = sa.engine.create_engine(os.getenv("URL_AIVEN_PG"))
 
 # %%
 stmt: str = """
     CREATE TABLE IF NOT EXISTS unibb (
-        id INTEGER AUTO_INCREMENT PRIMARY KEY,
+        id SERIAL PRIMARY KEY,
         id_curso INTEGER NOT NULL,
         nm_curso VARCHAR(100) NOT NULL,
         hr_curso INTEGER NOT NULL
