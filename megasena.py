@@ -32,7 +32,7 @@ minhas_apostas: tuple = (
 )
 
 # %%
-megasena: pd.DataFrame = pd.read_excel(io="~/Downloads/mega_copy-Sena.xlsx", engine="openpyxl")
+megasena: pd.DataFrame = pd.read_excel(io="~/Downloads/mega-Sena.xlsx", engine="openpyxl")
 
 megasena["Data do Sorteio"] = pd.to_datetime(megasena["Data do Sorteio"], format="%d/%m/%Y")
 
