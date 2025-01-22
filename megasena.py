@@ -14,7 +14,7 @@ pd.set_option("display.max_columns", None)
 
 load_dotenv()
 
-engine: sa.Engine = sa.create_engine(os.getenv("URL_AIVEN"))
+engine: sa.Engine = sa.create_engine(os.getenv("URL_AIVEN_PG"))
 
 minhas_apostas: tuple = (
     "05 15 26 27 46 53",  # aposta n.° 1
