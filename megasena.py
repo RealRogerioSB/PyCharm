@@ -6,9 +6,9 @@ import pandas as pd
 locale.setlocale(locale.LC_ALL, "pt_BR.UTF-8")
 locale.setlocale(locale.LC_MONETARY, "pt_BR.UTF-8")
 
+pd.set_option("display.expand_frame_repr", False)
 pd.set_option("display.float_format", lambda val: f"R$ {locale.currency(val=val, symbol=False, grouping=True)}")
 pd.set_option("display.max_columns", None)
-pd.set_option("display.expand_frame_repr", False)
 
 minhas_apostas: tuple = (
     "05 15 26 27 46 53",  # aposta n.° 1
