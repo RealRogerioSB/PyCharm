@@ -34,8 +34,6 @@ minhas_apostas: tuple = (
 # %%
 megasena: pd.DataFrame = pd.read_excel(io="~/Downloads/mega-Sena.xlsx", engine="openpyxl")
 
-megasena["Data do Sorteio"] = pd.to_datetime(megasena["Data do Sorteio"], format="%d/%m/%Y")
-
 for col in megasena.columns[2:8]:
     megasena[col] = megasena[col].astype(str).str.zfill(2)
 
@@ -52,11 +50,11 @@ megasena.columns = ["id_sorteio", "dt_sorteio", "bolas", "acerto_6", "rateio_6",
 
 megasena.set_index(["id_sorteio"], inplace=True)
 
-megasena.loc[2701] = ["2024-03-16", "06 15 18 31 32 47", 0, 0.0, 72, 59349.01, 5712, 1068.7]
+megasena.loc[2701] = ["16/03/2024", "06 15 18 31 32 47", 0, 0.0, 72, 59349.01, 5712, 1068.7]
 
 megasena = megasena.reset_index().sort_values(by=["id_sorteio", "dt_sorteio"], ignore_index=True)
 
-print(megasena.tail(10))
+print(megasena.tail(15))
 
 # %%
 for r in range(6, 3, -1):
@@ -71,7 +69,7 @@ for r in range(6, 3, -1):
 
             if len(match) == r:
                 mega_copy["Concurso"].append(str(row[0]).zfill(4))
-                mega_copy["Data"].append(pd.to_datetime(row[1]).strftime("%x (%a)"))
+                mega_copy["Data"].append(pd.to_datetime(row[1], format="%d/%m/%Y").strftime("%x (%a)"))
                 mega_copy["Bolas"].append(" ".join(match))
                 mega_copy["Aposta n.°"].append(minhas_apostas.index(aposta) + 1)
 
@@ -89,7 +87,7 @@ for row in megasena.itertuples(index=False, name=None):
 
     if len(match) >= 4:
         mega_copy["Concurso"].append(str(row[0]).zfill(4))
-        mega_copy["Data"].append(pd.to_datetime(row[1]).strftime("%x (%a)"))
+        mega_copy["Data"].append(pd.to_datetime(row[1], format="%d/%m/%Y").strftime("%x (%a)"))
         mega_copy["Bolas"].append(row[2])
         mega_copy["Acertos"].append(len(match))
 
@@ -106,11 +104,14 @@ print(pd.DataFrame(mega_copy)) if len(pd.DataFrame(mega_copy)) != 0 \
 
 df_mega_da_virada = megasena.copy()
 
+df_mega_da_virada["dt_sorteio"] = pd.to_datetime(df_mega_da_virada["dt_sorteio"], format="%d/%m/%Y")
 df_mega_da_virada["ano"] = df_mega_da_virada["dt_sorteio"].dt.year
 
 df_mega_da_virada = df_mega_da_virada[df_mega_da_virada['dt_sorteio']. \
     isin(df_mega_da_virada[df_mega_da_virada['ano'] != pd.Timestamp.now().year]. \
          groupby('ano')['dt_sorteio'].transform('max'))].reset_index(drop=True)
+
+df_mega_da_virada["ano"] = df_mega_da_virada["dt_sorteio"].dt.strftime("%d/%m/%Y")
 
 print(df_mega_da_virada)
 

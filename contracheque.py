@@ -1,5 +1,5 @@
 # %%
-import locale as lc
+import locale
 import os
 
 import matplotlib.pyplot as plt
@@ -10,11 +10,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-lc.setlocale(category=lc.LC_ALL, locale="pt_BR.UTF-8")
-lc.setlocale(category=lc.LC_MONETARY, locale="pt_BR.UTF-8")
+locale.setlocale(category=locale.LC_ALL, locale="pt_BR.UTF-8")
+locale.setlocale(category=locale.LC_MONETARY, locale="pt_BR.UTF-8")
 
 pd.set_option("display.expand_frame_repr", False)
-pd.set_option("display.float_format", lambda val: f"R$ {lc.currency(val=val, symbol=False, grouping=True)}")
+pd.set_option("display.float_format", lambda val: f"R$ {locale.currency(val=val, symbol=False, grouping=True)}")
 pd.set_option('display.max_columns', None)
 
 engine: sa.Engine = sa.engine.create_engine(url=os.getenv("URL_AIVEN_PG"))
@@ -204,6 +204,6 @@ ax.set_title(f"Espelho {year}", loc="center", fontweight="bold", fontsize=12)
 ax.set(xlabel="", ylabel="", yticks=[])
 
 for mes in range(12):
-    ax.bar_label(ax.containers[mes], fmt=lambda i: lc.currency(val=i, symbol=False, grouping=True), fontsize=10)
+    ax.bar_label(ax.containers[mes], fmt=lambda i: locale.currency(val=i, symbol=False, grouping=True), fontsize=10)
 
 plt.show()
